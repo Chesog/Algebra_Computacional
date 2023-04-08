@@ -219,9 +219,21 @@ namespace CustomMath
         {
             return a.x * b.x + a.y * b.y + a.z * b.z;
         }
+
+        /// <summary>
+        /// The dot product is a float value equal to the magnitudes 
+        /// of the two vectors multiplied together and then multiplied 
+        /// by the cosine of the angle between them.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        /// https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
         {
-            throw new NotImplementedException();
+            Mathf.Clamp(t,0,1);
+            return a + (b - a) * t;
         }
         public static Vec3 LerpUnclamped(Vec3 a, Vec3 b, float t)
         {
