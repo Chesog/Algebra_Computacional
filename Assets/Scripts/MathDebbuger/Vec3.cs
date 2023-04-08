@@ -186,9 +186,17 @@ namespace CustomMath
         {
             return "X = " + x.ToString() + "   Y = " + y.ToString() + "   Z = " + z.ToString();
         }
+
+        /// <summary>
+        /// Calculates the angle between vectors from and To
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        /// https://docs.unity3d.com/ScriptReference/Vector3.Angle.html
         public static float Angle(Vec3 from, Vec3 to)
         {
-            throw new NotImplementedException();
+            return Mathf.Acos(Dot(from.normalized,to.normalized)) * 180 / Mathf.PI;
         }
 
         /// <summary>
