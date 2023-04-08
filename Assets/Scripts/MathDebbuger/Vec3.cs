@@ -198,9 +198,18 @@ namespace CustomMath
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// The cross product of two vectors results in a third vector 
+        /// which is perpendicular to the two input vectors
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        // https://docs.unity3d.com/ScriptReference/Vector3.Cross.html
         public static Vec3 Cross(Vec3 a, Vec3 b)
         {
-            throw new NotImplementedException();
+            return new Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
         }
 
         /// <summary>
