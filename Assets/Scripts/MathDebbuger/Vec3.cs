@@ -199,12 +199,14 @@ namespace CustomMath
         }
 
         /// <summary>
-        /// 
+        /// Normalize the vec3 and give u a number betwen  0 & 1
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
         public void Normalize()
         {
-            throw new NotImplementedException();
+            x = x / Magnitude(this);
+            y = y / Magnitude(this);
+            z = z / Magnitude(this);
         }
         #endregion
 
