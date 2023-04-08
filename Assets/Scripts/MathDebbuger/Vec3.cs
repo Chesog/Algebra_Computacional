@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
+
 namespace CustomMath
 {
     public struct Vec3 : IEquatable<Vec3>
@@ -124,9 +126,16 @@ namespace CustomMath
             return new Vec3(- v3.x,- v3.y, - v3.z);
         }
 
+        /// <summary>
+        /// multiply the vector with a scalar value
+        /// </summary>
+        /// <param name="v3"></param>
+        /// <param name="scalar"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static Vec3 operator *(Vec3 v3, float scalar)
         {
-            throw new NotImplementedException();
+            return new Vec3(v3.x * scalar,v3.y * scalar ,v3.z * scalar);
         }
         public static Vec3 operator *(float scalar, Vec3 v3)
         {
