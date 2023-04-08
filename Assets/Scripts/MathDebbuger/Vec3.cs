@@ -194,9 +194,15 @@ namespace CustomMath
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Returns the magnitud of a Vec3
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
         public static float Magnitude(Vec3 vector)
         {
-            throw new NotImplementedException();
+            return vector.magnitude;
         }
 
         /// <summary>
@@ -361,9 +367,9 @@ namespace CustomMath
         /// <exception cref="NotImplementedException"></exception>
         public void Normalize()
         {
-            x = x / Magnitude(this);
-            y = y / Magnitude(this);
-            z = z / Magnitude(this);
+            x = x / this.magnitude;
+            y = y / this.magnitude;
+            z = z / this.magnitude;
         }
         #endregion
 
