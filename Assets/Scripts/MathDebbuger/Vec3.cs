@@ -186,10 +186,22 @@ namespace CustomMath
             y = newY;
             z = newZ;
         }
+
+        /// <summary>
+        /// Multiply the Vec3 Whit the new scale
+        /// </summary>
+        /// <param name="scale"></param>
         public void Scale(Vec3 scale)
         {
-            throw new NotImplementedException();
+            x *= scale.x;
+            y *= scale.y;
+            z *= scale.z;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
         public void Normalize()
         {
             throw new NotImplementedException();
