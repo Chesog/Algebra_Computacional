@@ -79,24 +79,49 @@ namespace CustomMath
             float sqrmag = diff_x * diff_x + diff_y * diff_y + diff_z * diff_z;
             return sqrmag < epsilon * epsilon;
         }
+
+        /// <summary>
+        /// Returns if vec3 Vec3 left is different to Vec3 right
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator !=(Vec3 left, Vec3 right)
         {
             return !(left == right);
         }
 
+
+        /// <summary>
+        /// Add to vectors
+        /// </summary>
+        /// <param name="leftV3"></param>
+        /// <param name="rightV3"></param>
+        /// <returns></returns>
         public static Vec3 operator +(Vec3 leftV3, Vec3 rightV3)
         {
             return new Vec3(leftV3.x + rightV3.x, leftV3.y + rightV3.y, leftV3.z + rightV3.z);
         }
 
+        /// <summary>
+        /// subtract two vectors
+        /// </summary>
+        /// <param name="leftV3"></param>
+        /// <param name="rightV3"></param>
+        /// <returns></returns>
         public static Vec3 operator -(Vec3 leftV3, Vec3 rightV3)
         {
-            throw new NotImplementedException();
+            return new Vec3(leftV3.x - rightV3.x, leftV3.y - rightV3.y, leftV3.z - rightV3.z);
         }
 
+        /// <summary>
+        /// Returns the value in negative
+        /// </summary>
+        /// <param name="v3"></param>
+        /// <returns></returns>
         public static Vec3 operator -(Vec3 v3)
         {
-            throw new NotImplementedException();
+            return new Vec3(- v3.x,- v3.y, - v3.z);
         }
 
         public static Vec3 operator *(Vec3 v3, float scalar)
