@@ -237,7 +237,7 @@ namespace CustomMath
         }
 
         /// <summary>
-        /// Retunr The Unsigned dot product is a float value equal to the magnitudes 
+        /// Retunr The Unclamped dot product is a float value equal to the magnitudes 
         /// of the two vectors multiplied together and then multiplied 
         /// by the cosine of the angle between them.
         /// </summary>
@@ -250,9 +250,21 @@ namespace CustomMath
         {
             return a + (b - a) * t;
         }
+
+        /// <summary>
+        /// Returns a vector whit the max value betwen to given vectors
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static Vec3 Max(Vec3 a, Vec3 b)
         {
-            throw new NotImplementedException();
+            float maxValueX = a.x > b.x ? a.x : b.x;
+            float maxValueY = a.y > b.y ? a.y : b.y;
+            float maxValueZ = a.z > b.z ? a.z : b.z;
+
+
+           return new Vec3 (maxValueX, maxValueY, maxValueZ);
         }
         public static Vec3 Min(Vec3 a, Vec3 b)
         {
