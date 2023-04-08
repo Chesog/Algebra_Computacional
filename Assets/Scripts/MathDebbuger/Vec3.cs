@@ -284,7 +284,7 @@ namespace CustomMath
         }
         public static float SqrMagnitude(Vec3 vector)
         {
-            throw new NotImplementedException();
+            return vector.sqrMagnitude;
         }
         public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
         {
@@ -293,6 +293,8 @@ namespace CustomMath
 
         /// <summary>
         /// Returns the reflection of a vector in a surface with the specified normal
+        /// Makes the reflected object appear opposite of the original object
+        /// mirrored along the z-axis of the world
         /// </summary>
         /// <param name="inDirection"></param>
         /// <param name="inNormal"></param>
@@ -300,8 +302,21 @@ namespace CustomMath
         /// <exception cref="NotImplementedException"></exception>
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
-            throw new NotImplementedException();
+            float opositeAngle = - 2f * Vec3.Dot(inDirection, inNormal);
+
+            float reflectX = opositeAngle * inDirection.x + inNormal.x;
+            float reflectY = opositeAngle * inDirection.y + inNormal.y;
+            float reflectZ = opositeAngle * inDirection.z + inNormal.z;
+
+            return new Vec3(reflectX,reflectY, reflectZ);
         }
+
+        /// <summary>
+        /// Set new values (x,y,z) for a Vec3
+        /// </summary>
+        /// <param name="newX"></param>
+        /// <param name="newY"></param>
+        /// <param name="newZ"></param>
         public void Set(float newX, float newY, float newZ)
         {
             x = newX;
