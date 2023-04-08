@@ -266,9 +266,21 @@ namespace CustomMath
 
            return new Vec3 (maxValueX, maxValueY, maxValueZ);
         }
+
+        /// <summary>
+        /// Returns a vector whit the min value betwen to given vectors
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static Vec3 Min(Vec3 a, Vec3 b)
         {
-            throw new NotImplementedException();
+            float minValueX = a.x < b.x ? a.x : b.x;
+            float minValueY = a.y < b.y ? a.y : b.y;
+            float minValueZ = a.z < b.z ? a.z : b.z;
+
+
+            return new Vec3(minValueX, minValueY, minValueZ);
         }
         public static float SqrMagnitude(Vec3 vector)
         {
