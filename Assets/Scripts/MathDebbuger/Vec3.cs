@@ -11,7 +11,7 @@ namespace CustomMath
         public float y;
         public float z;
 
-        public float sqrMagnitude { get { throw new NotImplementedException(); } }
+        public float sqrMagnitude { get { return (x * x + y * y + z * z); } }
         public Vector3 normalized { get { throw new NotImplementedException(); } }
         public float magnitude { get { throw new NotImplementedException(); } }
         #endregion
@@ -176,6 +176,14 @@ namespace CustomMath
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Returns the reflection of a vector in a surface with the specified normal
+        /// </summary>
+        /// <param name="inDirection"></param>
+        /// <param name="inNormal"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
             throw new NotImplementedException();
