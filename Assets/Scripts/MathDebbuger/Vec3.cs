@@ -132,7 +132,6 @@ namespace CustomMath
         /// <param name="v3"></param>
         /// <param name="scalar"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public static Vec3 operator *(Vec3 v3, float scalar)
         {
             return new Vec3(v3.x * scalar,v3.y * scalar ,v3.z * scalar);
@@ -144,7 +143,6 @@ namespace CustomMath
         /// <param name="v3"></param>
         /// <param name="scalar"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public static Vec3 operator *(float scalar, Vec3 v3)
         {
             return new Vec3(v3.x * scalar, v3.y * scalar, v3.z * scalar);
@@ -156,7 +154,6 @@ namespace CustomMath
         /// <param name="v3"></param>
         /// <param name="scalar"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public static Vec3 operator /(Vec3 v3, float scalar)
         {
             return new Vec3(v3.x / scalar, v3.y / scalar, v3.z / scalar);
@@ -335,9 +332,29 @@ namespace CustomMath
         {
             return vector.sqrMagnitude;
         }
+
+        /// <summary>
+        /// Projects a vector on another vector
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <param name="onNormal"></param>
+        /// <returns></returns>
+        /// https://docs.unity3d.com/ScriptReference/Vector3.ProjectOnPlane.html
         public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
         {
-            throw new NotImplementedException();
+            float aux = Dot(onNormal,onNormal);
+            if (aux < epsilon)
+            {
+                return Zero;
+            }
+            else
+            {
+                float aux2 = Dot(vector, onNormal);
+                float projectionX = onNormal.x * aux2 / aux;
+                float projectionY = onNormal.y * aux2 / aux;
+                float projectionZ = onNormal.z * aux2 / aux;
+                return new Vec3(projectionX, projectionY, projectionZ);
+            }
         }
 
         /// <summary>
@@ -348,7 +365,6 @@ namespace CustomMath
         /// <param name="inDirection"></param>
         /// <param name="inNormal"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
             float opositeAngle = - 2f * Vec3.Dot(inDirection, inNormal);
