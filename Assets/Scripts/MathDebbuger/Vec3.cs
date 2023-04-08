@@ -190,9 +190,24 @@ namespace CustomMath
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Returns a copy of vector with its magnitude clamped to maxLength
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <param name="maxLength"></param>
+        /// <returns></returns>
+        /// https://docs.unity3d.com/ScriptReference/Vector3.ClampMagnitude.html
         public static Vec3 ClampMagnitude(Vec3 vector, float maxLength)
         {
-            throw new NotImplementedException();
+            if (vector.magnitude > maxLength)
+            {
+                return vector.normalized * maxLength;
+            }
+            else
+            {
+                return vector;
+            }
         }
 
         /// <summary>
