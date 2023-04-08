@@ -11,7 +11,7 @@ namespace CustomMath
         public float y;
         public float z;
 
-        public float sqrMagnitude { get { return (x * x + y * y + z * z); } }
+        public float sqrMagnitude { get { return Mathf.Sqrt(x * x + y * y + z * z); } }
         public Vec3 normalized { get { return new Vec3(x / magnitude , y / magnitude , z / magnitude); } }
         public float magnitude { get { throw new NotImplementedException(); } }
         #endregion
