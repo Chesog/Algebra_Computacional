@@ -127,7 +127,7 @@ namespace CustomMath
         }
 
         /// <summary>
-        /// multiply the vector with a scalar value
+        /// Multiply the vector with a scalar value
         /// </summary>
         /// <param name="v3"></param>
         /// <param name="scalar"></param>
@@ -137,23 +137,47 @@ namespace CustomMath
         {
             return new Vec3(v3.x * scalar,v3.y * scalar ,v3.z * scalar);
         }
+
+        /// <summary>
+        /// Multiply the vector with a scalar value
+        /// </summary>
+        /// <param name="v3"></param>
+        /// <param name="scalar"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static Vec3 operator *(float scalar, Vec3 v3)
         {
-            throw new NotImplementedException();
-        }
-        public static Vec3 operator /(Vec3 v3, float scalar)
-        {
-            throw new NotImplementedException();
+            return new Vec3(v3.x * scalar, v3.y * scalar, v3.z * scalar);
         }
 
+        /// <summary>
+        /// Divide the vector with a scalar value
+        /// </summary>
+        /// <param name="v3"></param>
+        /// <param name="scalar"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public static Vec3 operator /(Vec3 v3, float scalar)
+        {
+            return new Vec3(v3.x / scalar, v3.y / scalar, v3.z / scalar);
+        }
+
+        /// <summary>
+        /// Cast a Vector3 to Vec3
+        /// </summary>
+        /// <param name="v3"></param>
         public static implicit operator Vector3(Vec3 v3)
         {
             return new Vector3(v3.x, v3.y, v3.z);
         }
 
+        /// <summary>
+        /// Cast a Vec3 to Vector2
+        /// </summary>
+        /// <param name="v3"></param>
         public static implicit operator Vector2(Vec3 v2)
         {
-            throw new NotImplementedException();
+            return new Vector2(v2.x,v2.y);
         }
         #endregion
 
