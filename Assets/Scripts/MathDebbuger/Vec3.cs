@@ -202,9 +202,20 @@ namespace CustomMath
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Retuns the distance betwen to vec3
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static float Distance(Vec3 a, Vec3 b)
         {
-            throw new NotImplementedException();
+            float diffX = b.x - a.x;
+            float diffY = b.y - a.y;
+            float diffZ = b.z - a.z;
+
+            return Mathf.Sqrt((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ));
         }
 
         //https://docs.unity3d.com/ScriptReference/Vector3.Dot.html
