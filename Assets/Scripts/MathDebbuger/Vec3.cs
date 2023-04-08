@@ -206,9 +206,18 @@ namespace CustomMath
         {
             throw new NotImplementedException();
         }
+
+        //https://docs.unity3d.com/ScriptReference/Vector3.Dot.html
+        /// <summary>
+        /// Return a float value equal to the magnitudes of the two vectors multiplied together
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static float Dot(Vec3 a, Vec3 b)
         {
-            throw new NotImplementedException();
+            return a.x * b.x + a.y * b.y + a.z * b.z;
         }
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
         {
