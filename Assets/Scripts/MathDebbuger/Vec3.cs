@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace CustomMath
 {
+    [Serializable]
     public struct Vec3 : IEquatable<Vec3>
     {
         #region Variables
@@ -264,7 +265,6 @@ namespace CustomMath
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public static float Dot(Vec3 a, Vec3 b)
         {
             return a.x * b.x + a.y * b.y + a.z * b.z;

@@ -7,9 +7,10 @@ using MathDebbuger;
 public class Vec_3_Ej : MonoBehaviour
 {
     [SerializeField] private int ejToShow = 1;
-    [SerializeField] public Vector3 First_Vec;
-    [SerializeField] public Vector3 Second_Vec;
+    [SerializeField] private Vec3 First_Vec;
+    [SerializeField] private Vec3 Second_Vec;
     private Vector3 Res_Vec;
+    private float lerp = 0;
 
     private void Start()
     {
@@ -26,7 +27,9 @@ public class Vec_3_Ej : MonoBehaviour
     {
         Suma = 1,
         Resta,
+        Mult,
         Cross,
+        Lerp,
     }
 
     // Update is called once per frame
@@ -44,13 +47,14 @@ public class Vec_3_Ej : MonoBehaviour
             case (int)Ejercicios.Resta:
                 Ej2();
                 break;
-            case (int)Ejercicios.Cross:
+            case (int)Ejercicios.Mult:
                 Ej3();
                 break;
-            case 4:
+            case (int)Ejercicios.Cross:
                 Ej4();
                 break;
-            case 5:
+            case (int)Ejercicios.Lerp:
+                Ej5();
                 break;
             case 6:
                 break;
@@ -86,6 +90,18 @@ public class Vec_3_Ej : MonoBehaviour
 
     private void Ej4() 
     {
-        Res_Vec = Vector3.Cross(Second_Vec,First_Vec);
+        Res_Vec = Vec3.Cross(Second_Vec,First_Vec);
+    }
+
+    private void Ej5() 
+    {
+        lerp += Time.deltaTime;
+
+        Res_Vec = Vec3.Lerp(First_Vec, Second_Vec, lerp);
+
+        if (lerp >= 1)
+        {
+            lerp = 0;
+        }
     }
 }
