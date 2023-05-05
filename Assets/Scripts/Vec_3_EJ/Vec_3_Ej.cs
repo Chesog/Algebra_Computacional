@@ -6,7 +6,7 @@ using MathDebbuger;
 
 public class Vec_3_Ej : MonoBehaviour
 {
-    [SerializeField] private int ejToShow = 1;
+    [SerializeField][Range(1,10)] private int ejToShow = 1;
     [SerializeField] private Vec3 First_Vec;
     [SerializeField] private Vec3 Second_Vec;
     private Vector3 Res_Vec;
@@ -14,7 +14,6 @@ public class Vec_3_Ej : MonoBehaviour
 
     private void Start()
     {
-
         Vector3Debugger.AddVector(First_Vec, Color.red, "First_Vec");
         Vector3Debugger.EnableEditorView("First_Vec");
         Vector3Debugger.AddVector(Second_Vec, Color.blue, "Second_Vec");
@@ -31,6 +30,7 @@ public class Vec_3_Ej : MonoBehaviour
         Cross,
         Lerp,
         Max,
+        Project,
     }
 
     // Update is called once per frame
@@ -60,15 +60,17 @@ public class Vec_3_Ej : MonoBehaviour
             case (int)Ejercicios.Max:
                 Ej6();
                 break;
-            case 7:
+            case (int)Ejercicios.Project:
+                Ej7();
                 break;
             case 8:
+                Ej8();
                 break;
             case 9:
+                Ej9();
                 break;
             case 10:
-                break;
-            default:
+                Ej10();
                 break;
         }
     }
@@ -110,5 +112,25 @@ public class Vec_3_Ej : MonoBehaviour
     private void Ej6() 
     {
         Res_Vec = Vec3.Max(First_Vec,Second_Vec);
+    }
+
+    private void Ej7() 
+    {
+        Res_Vec = Vec3.Project(First_Vec, Second_Vec);
+    }
+
+    private void Ej8()
+    {
+       
+    }
+
+    private void Ej9()
+    {
+        
+    }
+
+    private void Ej10()
+    {
+        
     }
 }

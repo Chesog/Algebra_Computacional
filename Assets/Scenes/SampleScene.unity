@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 642327099, guid: 0ef8c8c6ca5f9cc498cee3854d84becc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ejercicio: 5
+  ejercicio: 6
   vectorColor: {r: 1, g: 0, b: 0, a: 1}
   a: {x: 10, y: 2, z: 20}
   b: {x: 2, y: 6, z: 2}
@@ -484,7 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d8733380f50024297036fa8490544e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ejToShow: 6
+  ejToShow: 7
   First_Vec:
     x: 10
     y: 2
