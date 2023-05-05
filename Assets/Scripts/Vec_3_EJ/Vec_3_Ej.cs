@@ -31,6 +31,8 @@ public class Vec_3_Ej : MonoBehaviour
         Lerp,
         Max,
         Project,
+        dasd,
+        Reflect
     }
 
     // Update is called once per frame
@@ -66,7 +68,7 @@ public class Vec_3_Ej : MonoBehaviour
             case 8:
                 Ej8();
                 break;
-            case 9:
+            case (int)Ejercicios.Reflect:
                 Ej9();
                 break;
             case 10:
@@ -116,21 +118,29 @@ public class Vec_3_Ej : MonoBehaviour
 
     private void Ej7() 
     {
-        Res_Vec = Vec3.Project(First_Vec, Second_Vec);
+        Res_Vec = Vec3.Project(First_Vec, Second_Vec.normalized);
     }
 
     private void Ej8()
     {
-       
+       Vec3 aux = Vec3.Reflect(First_Vec, Second_Vec.normalized);
+       Res_Vec = - aux;
     }
 
     private void Ej9()
     {
-        
+        Res_Vec = Vec3.Reflect(First_Vec,Second_Vec.normalized);
     }
 
     private void Ej10()
     {
-        
+        lerp -= Time.deltaTime;
+
+        Res_Vec = Vec3.LerpUnclamped(First_Vec,Second_Vec,lerp);
+
+        if (lerp <= -10)
+        {
+            lerp = 1;
+        }
     }
 }

@@ -371,13 +371,15 @@ namespace CustomMath
         /// <returns></returns>
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
-            float opositeAngle = - 2f * Vec3.Dot(inDirection, inNormal);
+            //float opositeAngle = - 2f * Vec3.Dot(inDirection, inNormal);
+            //
+            //float reflectX = opositeAngle * inDirection.x + inNormal.x;
+            //float reflectY = opositeAngle * inDirection.y + inNormal.y;
+            //float reflectZ = opositeAngle * inDirection.z + inNormal.z;
+            //
+            //return new Vec3(reflectX,reflectY, reflectZ);
 
-            float reflectX = opositeAngle * inDirection.x + inNormal.x;
-            float reflectY = opositeAngle * inDirection.y + inNormal.y;
-            float reflectZ = opositeAngle * inDirection.z + inNormal.z;
-
-            return new Vec3(reflectX,reflectY, reflectZ);
+            return inDirection - 2 * (Dot(inDirection, inNormal)) * inNormal;
         }
 
         /// <summary>
