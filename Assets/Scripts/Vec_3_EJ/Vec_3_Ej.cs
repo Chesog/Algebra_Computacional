@@ -1,14 +1,14 @@
-using CustomMath;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CustomMath;
 using MathDebbuger;
 
 public class Vec_3_Ej : MonoBehaviour
 {
-    [SerializeField] public Vec3 First_Vec = new Vec3(10,0,3);
-    [SerializeField] public Vec3 Second_Vec = new Vec3(0, 10, 2);
-    [SerializeField] public Vec3 Res_Vec;
+    [SerializeField] public Vector3 First_Vec;
+    [SerializeField] public Vector3 Second_Vec;
+    private Vector3 Res_Vec;
     [SerializeField] private int ejToShow = 1;
 
     private void Start()
@@ -35,6 +35,7 @@ public class Vec_3_Ej : MonoBehaviour
                 Ej1();
                 break;
             case 2:
+                Ej2();
                 break;
             case 3:
                 break;
@@ -60,5 +61,10 @@ public class Vec_3_Ej : MonoBehaviour
     private void Ej1()
     {
         Res_Vec = First_Vec + Second_Vec;
+    }
+
+    private void Ej2() 
+    {
+        Res_Vec = First_Vec - Second_Vec;
     }
 }
