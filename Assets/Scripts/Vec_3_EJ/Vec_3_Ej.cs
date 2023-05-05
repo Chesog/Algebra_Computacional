@@ -6,10 +6,10 @@ using MathDebbuger;
 
 public class Vec_3_Ej : MonoBehaviour
 {
+    [SerializeField] private int ejToShow = 1;
     [SerializeField] public Vector3 First_Vec;
     [SerializeField] public Vector3 Second_Vec;
     private Vector3 Res_Vec;
-    [SerializeField] private int ejToShow = 1;
 
     private void Start()
     {
@@ -22,6 +22,13 @@ public class Vec_3_Ej : MonoBehaviour
         Vector3Debugger.EnableEditorView("Res_Vec");
     }
 
+    enum Ejercicios
+    {
+        Suma = 1,
+        Resta,
+        Cross,
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -31,16 +38,17 @@ public class Vec_3_Ej : MonoBehaviour
 
         switch (ejToShow)
         {
-            case 1:
+            case (int)Ejercicios.Suma:
                 Ej1();
                 break;
-            case 2:
+            case (int)Ejercicios.Resta:
                 Ej2();
                 break;
-            case 3:
+            case (int)Ejercicios.Cross:
                 Ej3();
                 break;
             case 4:
+                Ej4();
                 break;
             case 5:
                 break;
@@ -74,5 +82,10 @@ public class Vec_3_Ej : MonoBehaviour
         Res_Vec.x = First_Vec.x * Second_Vec.x;
         Res_Vec.y = First_Vec.y * Second_Vec.y;
         Res_Vec.z = First_Vec.z * Second_Vec.z;
+    }
+
+    private void Ej4() 
+    {
+        Res_Vec = Vector3.Cross(Second_Vec,First_Vec);
     }
 }

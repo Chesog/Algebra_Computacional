@@ -235,7 +235,11 @@ namespace CustomMath
         // https://docs.unity3d.com/ScriptReference/Vector3.Cross.html
         public static Vec3 Cross(Vec3 a, Vec3 b)
         {
-            return new Vec3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+            float x = (a.y * b.z) - (a.z * b.y);
+            float y = (a.x * b.z) - (a.z * b.x);
+            float z = (a.x * b.y) - (a.y * b.x);
+
+            return new Vec3(x,y,z);
         }
 
         /// <summary>

@@ -246,10 +246,10 @@ MonoBehaviour:
   m_Script: {fileID: 642327099, guid: 0ef8c8c6ca5f9cc498cee3854d84becc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ejercicio: 2
+  ejercicio: 3
   vectorColor: {r: 1, g: 0, b: 0, a: 1}
-  a: {x: 0, y: 0, z: 0}
-  b: {x: 0, y: 0, z: 0}
+  a: {x: 10, y: 2, z: 20}
+  b: {x: 2, y: 6, z: 2}
 --- !u!4 &479619244
 Transform:
   m_ObjectHideFlags: 0
@@ -484,9 +484,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d8733380f50024297036fa8490544e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  First_Vec: {x: 10, y: 1, z: 3}
-  Second_Vec: {x: 1, y: 5, z: 7}
-  ejToShow: 3
+  ejToShow: 4
+  First_Vec: {x: 10, y: 2, z: 20}
+  Second_Vec: {x: 2, y: 6, z: 2}
 --- !u!4 &1531354120
 Transform:
   m_ObjectHideFlags: 0
