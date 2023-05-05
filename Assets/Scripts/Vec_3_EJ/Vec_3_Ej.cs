@@ -38,6 +38,7 @@ public class Vec_3_Ej : MonoBehaviour
                 Ej2();
                 break;
             case 3:
+                Ej3();
                 break;
             case 4:
                 break;
@@ -66,5 +67,12 @@ public class Vec_3_Ej : MonoBehaviour
     private void Ej2() 
     {
         Res_Vec = First_Vec - Second_Vec;
+    }
+    
+    private void Ej3() 
+    {
+        Res_Vec.x = First_Vec.x * Second_Vec.x;
+        Res_Vec.y = First_Vec.y * Second_Vec.y;
+        Res_Vec.z = First_Vec.z * Second_Vec.z;
     }
 }
