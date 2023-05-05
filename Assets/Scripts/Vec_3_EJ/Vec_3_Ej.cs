@@ -30,6 +30,7 @@ public class Vec_3_Ej : MonoBehaviour
         Mult,
         Cross,
         Lerp,
+        Max,
     }
 
     // Update is called once per frame
@@ -56,7 +57,8 @@ public class Vec_3_Ej : MonoBehaviour
             case (int)Ejercicios.Lerp:
                 Ej5();
                 break;
-            case 6:
+            case (int)Ejercicios.Max:
+                Ej6();
                 break;
             case 7:
                 break;
@@ -103,5 +105,10 @@ public class Vec_3_Ej : MonoBehaviour
         {
             lerp = 0;
         }
+    }
+
+    private void Ej6() 
+    {
+        Res_Vec = Vec3.Max(First_Vec,Second_Vec);
     }
 }
