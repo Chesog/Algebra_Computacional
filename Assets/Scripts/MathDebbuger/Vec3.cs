@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using EjerciciosAlgebra;
 
 namespace CustomMath
 {
