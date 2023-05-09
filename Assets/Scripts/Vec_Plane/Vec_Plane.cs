@@ -110,8 +110,11 @@ namespace CustomMath
             return (distanceToPoint > 0f && distanceToPoint2 > 0f) || (distanceToPoint <= 0f && distanceToPoint2 <= 0f);
         }
 
-        public void DrawPlane(Vec3 position, Vec3 normal, Color color)
+        public void DrawPlane(Color p_Color, Color r_Color)
         {
+            Vec3 position = this.p_Normal * this.p_Distance;
+            Vec3 normal = this.normal;
+
             Vector3 v3;
             if (normal.normalized != Vector3.forward)
                 v3 = Vector3.Cross(normal, Vector3.forward).normalized * normal.magnitude;
@@ -123,13 +126,13 @@ namespace CustomMath
             v3 = q * v3;
             var corner1 = position + v3;
             var corner3 = position - v3;
-            Debug.DrawLine(corner0, corner2, color);
-            Debug.DrawLine(corner1, corner3, color);
-            Debug.DrawLine(corner0, corner1, color);
-            Debug.DrawLine(corner1, corner2, color);
-            Debug.DrawLine(corner2, corner3, color);
-            Debug.DrawLine(corner3, corner0, color);
-            Debug.DrawRay(position, normal, Color.magenta);
+            Debug.DrawLine(corner0, corner2, p_Color);
+            Debug.DrawLine(corner1, corner3, p_Color);
+            Debug.DrawLine(corner0, corner1, p_Color);
+            Debug.DrawLine(corner1, corner2, p_Color);
+            Debug.DrawLine(corner2, corner3, p_Color);
+            Debug.DrawLine(corner3, corner0, p_Color);
+            Debug.DrawRay(position, normal, r_Color);
         }
     }
 }
