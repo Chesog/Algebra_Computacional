@@ -10,7 +10,7 @@ public class Vec_Grid : MonoBehaviour
     public int sizeY = 10;
     public int sizeZ = 10;
     public bool showGrid;
-    public float delta = 1f;
+    public static float delta = 1f;
 
     // Start is called before the first frame update
     void Start()
