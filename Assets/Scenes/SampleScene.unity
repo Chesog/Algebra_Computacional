@@ -587,5 +587,5 @@ MonoBehaviour:
   sizeX: 10
   sizeY: 10
   sizeZ: 10
-  showGrid: 1
+  showGrid: 0
   delta: 1
