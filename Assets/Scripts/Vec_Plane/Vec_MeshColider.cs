@@ -97,15 +97,32 @@ public class Vec_MeshColider : MonoBehaviour
             int counter = 0;
             foreach (var plane in vec_Planes)
             {
+                if (IsPointInPlane(plane,point,out var collisionPoint))
+                {
+                    if (IsValidPlane())
+                    {
 
+                    }
+                }
             }
         }
     }
 
     // http://www.jeffreythompson.org/collision-detection/tri-point.php
     // Triangle Point Collision
-    private bool IsValidPlane(float x1, float y1, float x2, float y2, float x3, float y3, float px, float py) 
+    private bool IsValidPlane(MeshPlanes mesh_P,Vec3 collisionPoint) 
     {
+        float x1 = mesh_P.va.x;
+        float x2 = mesh_P.vb.x;
+        float x3 = mesh_P.vc.x;
+
+        float y1 = mesh_P.va.y;
+        float y2 = mesh_P.vb.y;
+        float y3 = mesh_P.vc.y;
+
+        float px = collisionPoint.x;
+        float py = collisionPoint.y;
+
         // get the area of the triangle
         float areaOrig = Math.Abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1));
 
@@ -124,21 +141,21 @@ public class Vec_MeshColider : MonoBehaviour
         return false;
     }
 
-    bool IsPointInPlane(MeshPlanes meshPlane, Vec3 origin, out Vec3 point)
+    bool IsPointInPlane(MeshPlanes meshPlane, Vec3 originPoint, out Vec3 collisionPoint)
     {
         // Si la variable point Coliciona quiero que me devuelva donde coliciono 
 
         Vec_Plane plane = meshPlane.plane;
 
-        point = Vec3.Zero;
+        collisionPoint = Vec3.Zero;
 
         float denom = Vec3.Dot(plane.normal,Vec3.Down * 10);
         if (Mathf.Abs(denom) > Vec3.epsilon)
         {
-            float t = Vec3.Dot((plane.normal * plane.distance - origin), plane.normal) / denom;
+            float t = Vec3.Dot((plane.normal * plane.distance - originPoint), plane.normal) / denom;
             if (t >= Vec3.epsilon)
             {
-                point = origin + Vec3.Down * 10 * t;
+                collisionPoint = originPoint + Vec3.Down * 10 * t;
                 return true;
             }
         }
