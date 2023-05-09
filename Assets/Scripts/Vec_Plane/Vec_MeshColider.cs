@@ -92,20 +92,27 @@ public class Vec_MeshColider : MonoBehaviour
 
         p_Inside_Mesh.Clear();
 
-        foreach (var point in p_Inside_Mesh)
+        // Chekea los puntos y si estan dentro de la mesh los agrega a la lista de p_Inside_Mesh
+        foreach (var point in pointsToCheck)
         {
             int counter = 0;
             foreach (var plane in vec_Planes)
             {
                 if (IsPointInPlane(plane,point,out var collisionPoint))
                 {
-                    if (IsValidPlane())
+                    if (IsValidPlane(plane,collisionPoint))
                     {
-
+                        counter++;
                     }
                 }
             }
+            if (counter % 2 == 1)
+            {
+                p_Inside_Mesh.Add(point);
+            }
         }
+
+
     }
 
     // http://www.jeffreythompson.org/collision-detection/tri-point.php
