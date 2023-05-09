@@ -115,6 +115,18 @@ public class Vec_MeshColider : MonoBehaviour
 
     }
 
+    private bool IsPointColliding(Vec3 pointToCheck) 
+    {
+        foreach (var item in p_Inside_Mesh)
+        {
+            if (pointToCheck == item)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // http://www.jeffreythompson.org/collision-detection/tri-point.php
     // Triangle Point Collision
     private bool IsValidPlane(MeshPlanes mesh_P,Vec3 collisionPoint) 
