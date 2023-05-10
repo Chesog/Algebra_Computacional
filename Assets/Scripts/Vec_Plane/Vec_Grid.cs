@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CustomMath;
+using System;
 
 public class Vec_Grid : MonoBehaviour
 {
     public static Vec3[,,] v_Grid;
-    public int sizeX = 10;
-    public int sizeY = 10;
-    public int sizeZ = 10;
+    public int sizeX = 1;
+    public int sizeY = 1;
+    public int sizeZ = 1;
     public bool showGrid;
+    public float pointsInGridSize = 0.1f;
     public static float delta = 1f;
 
     // Start is called before the first frame update
@@ -32,6 +34,9 @@ public class Vec_Grid : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!Application.isPlaying)
+        { return; }
+
         Gizmos.color = Color.black;
 
         if (!showGrid)
@@ -43,7 +48,7 @@ public class Vec_Grid : MonoBehaviour
             {
                 for (int z = 0; z < v_Grid.GetLength(2); z++)
                 {
-                    Gizmos.DrawWireSphere(v_Grid[x,y,z],0.1f);
+                    Gizmos.DrawWireSphere(v_Grid[x,y,z], pointsInGridSize);
                 }
             }
         }

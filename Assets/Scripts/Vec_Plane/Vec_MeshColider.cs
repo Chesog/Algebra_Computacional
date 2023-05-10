@@ -1,9 +1,10 @@
-using System.Collections;
+using CustomMath;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using CustomMath;
-using System.Numerics;
-using System;
+using Color = UnityEngine.Color;
+
+
 
 public class Vec_MeshColider : MonoBehaviour
 {
@@ -29,41 +30,50 @@ public class Vec_MeshColider : MonoBehaviour
     }
 
     public bool showV_MeshColider;
-    public List<MeshPlanes> vec_Planes;
+    public List<MeshPlanes> Planes;
     public List<Vec3> p_Inside_Mesh;
+    public List<Vec3> pointsToCheck;
     public MeshFilter objMesh;
 
+
+    public List<Vec3> colP;
 
     // Start is called before the first frame update
     void Start()
     {
         objMesh = GetComponent<MeshFilter>();
         p_Inside_Mesh = new List<Vec3>();
+        pointsToCheck = new List<Vec3>();
+        colP = new List<Vec3>();
+        Planes = new List<MeshPlanes>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        vec_Planes.Clear();
+        Planes.Clear();
 
         // i += 3 Por que Recorremos los puntos de 3 en 3 Para conseguir los vertices de la mesh
 
         for (int i = 0; i < objMesh.mesh.GetIndices(0).Length; i += 3)
         {
-            Vec3 aux1 = new Vec3 (objMesh.mesh.vertices[objMesh.mesh.GetIndices(0)[i]]);
-            Vec3 aux2 = new Vec3(objMesh.mesh.vertices[objMesh.mesh.GetIndices(0)[i + 1]]);
-            Vec3 aux3 = new Vec3 (objMesh.mesh.vertices[objMesh.mesh.GetIndices(0)[i + 2]]);
+            Vec3 aux1 = new Vec3(transform.TransformPoint(objMesh.mesh.vertices[objMesh.mesh.GetIndices(0)[i]]));
+            Vec3 aux2 = new Vec3(transform.TransformPoint(objMesh.mesh.vertices[objMesh.mesh.GetIndices(0)[i + 1]]));
+            Vec3 aux3 = new Vec3(transform.TransformPoint(objMesh.mesh.vertices[objMesh.mesh.GetIndices(0)[i + 2]]));
 
             Vec_Plane auxP = new Vec_Plane(aux1, aux2, aux3);
-            vec_Planes.Add(new MeshPlanes(auxP,aux1,aux2,aux3));
+            auxP.normal *= -1;
+            //auxP.Flip();
+            Planes.Add(new MeshPlanes(auxP, aux1, aux2, aux3));
         }
 
 
-        // Por las dudas
-        foreach (var item in vec_Planes)
-        {
-            item.plane.Flip();
-        }
+
+        //// Por las dudas
+        //foreach (var item in Planes)
+        //{
+        //    item.plane.Flip();
+        //}
 
 
         //float nearPX = transform.position.x / Vec_Grid.delta;
@@ -75,8 +85,6 @@ public class Vec_MeshColider : MonoBehaviour
         //int y = nearPY - (int)nearPY > 0.5f ? (int)(nearPY + 1.0f) : (int)(nearPY);
         //int z = nearPZ - (int)nearPZ > 0.5f ? (int)(nearPZ + 1.0f) : (int)(nearPZ);
 
-
-        List<Vec3> pointsToCheck = new List<Vec3>();
         pointsToCheck.Clear();
 
         for (int x = 0; x < Vec_Grid.v_Grid.GetLength(0); x++)
@@ -85,37 +93,40 @@ public class Vec_MeshColider : MonoBehaviour
             {
                 for (int z = 0; z < Vec_Grid.v_Grid.GetLength(2); z++)
                 {
-                    pointsToCheck.Add(Vec_Grid.v_Grid[x,y,z]);
+                    pointsToCheck.Add(Vec_Grid.v_Grid[x, y, z]);
                 }
             }
         }
 
         p_Inside_Mesh.Clear();
-
+        colP.Clear();
         // Chekea los puntos y si estan dentro de la mesh los agrega a la lista de p_Inside_Mesh
         foreach (var point in pointsToCheck)
         {
             int counter = 0;
-            foreach (var plane in vec_Planes)
+            
+            foreach (var plane in Planes)
             {
-                if (IsPointInPlane(plane,point,out var collisionPoint))
+                if (IsPointInPlane(plane, point, out var collisionPoint))
                 {
-                    if (IsValidPlane(plane,collisionPoint))
+                    if (IsValidPlane(plane, collisionPoint))
                     {
+                        colP.Add(collisionPoint);
                         counter++;
                     }
                 }
             }
+            //Debug.Log("Counter " + counter);
             if (counter % 2 == 1)
             {
                 p_Inside_Mesh.Add(point);
             }
         }
 
-
+        DrawMeshPlanes();
     }
 
-    private bool IsPointColliding(Vec3 pointToCheck) 
+    public bool IsPointColliding(Vec3 pointToCheck)
     {
         foreach (var item in p_Inside_Mesh)
         {
@@ -129,7 +140,9 @@ public class Vec_MeshColider : MonoBehaviour
 
     // http://www.jeffreythompson.org/collision-detection/tri-point.php
     // Triangle Point Collision
-    private bool IsValidPlane(MeshPlanes mesh_P,Vec3 collisionPoint) 
+
+    // Arreglar Esto Que parece ser donde esta el problema 
+    private bool IsValidPlane(MeshPlanes mesh_P, Vec3 collisionPoint)
     {
         float x1 = mesh_P.va.x;
         float x2 = mesh_P.vb.x;
@@ -153,11 +166,7 @@ public class Vec_MeshColider : MonoBehaviour
 
         // if the sum of the three areas equals the original,
         // we're inside the triangle!
-        if (area1 + area2 + area3 == areaOrig)
-        {
-            return true;
-        }
-        return false;
+        return Math.Abs(area1 + area2 + area3 - areaOrig) < Vec3.epsilon;
     }
 
     bool IsPointInPlane(MeshPlanes meshPlane, Vec3 originPoint, out Vec3 collisionPoint)
@@ -168,10 +177,10 @@ public class Vec_MeshColider : MonoBehaviour
 
         collisionPoint = Vec3.Zero;
 
-        float denom = Vec3.Dot(plane.normal,Vec3.Down * 10);
+        float denom = Vector3.Dot(plane.normal, Vec3.Down * 10);
         if (Mathf.Abs(denom) > Vec3.epsilon)
         {
-            float t = Vec3.Dot((plane.normal * plane.distance - originPoint), plane.normal) / denom;
+            float t = Vector3.Dot((plane.normal * plane.distance - originPoint), plane.normal) / denom;
             if (t >= Vec3.epsilon)
             {
                 collisionPoint = originPoint + Vec3.Down * 10 * t;
@@ -179,5 +188,27 @@ public class Vec_MeshColider : MonoBehaviour
             }
         }
         return false;
+    }
+
+    void DrawMeshPlanes()
+    {
+        if (!showV_MeshColider)
+            return;
+
+        foreach (var plane in Planes)
+        {
+            plane.plane.DrawPlane(Color.green, Color.red);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!Application.isPlaying)
+        { return; }
+        Gizmos.color = Color.red;
+        for (int i = 0; i < colP.Count; i++)
+        {
+            Gizmos.DrawSphere(colP[i],0.1f);
+        }
     }
 }
