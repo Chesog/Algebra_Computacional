@@ -18,6 +18,7 @@ public class Vec_MeshColider : MonoBehaviour
 
     public List<Vec3> colP;
 
+    // Struct Ray Para simplificar los Chekeos de puntos
     struct Vec_Ray
     {
         public Vec3 origin;
@@ -48,7 +49,7 @@ public class Vec_MeshColider : MonoBehaviour
         createdPlanes = 0;
 
         // i += 3 Por que Recorremos los puntos de 3 en 3 Para conseguir los vertices de la mesh
-
+        // Creacion de planos
         for (int i = 0; i < objMesh.GetIndices(0).Length; i += 3)
         {
             Vec3 v1 = new Vec3(transform.TransformPoint(objMesh.vertices[objMesh.GetIndices(0)[i]]));
@@ -68,6 +69,8 @@ public class Vec_MeshColider : MonoBehaviour
         //    item.Flip();
         //}
 
+
+        // Guadamos Todos los puntos de la grilla para chekearlos despues con la mesh
 
         pointsToCheck.Clear();
 

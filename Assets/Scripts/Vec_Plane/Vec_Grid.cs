@@ -17,6 +17,7 @@ public class Vec_Grid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Inisializo La Grilla
         v_Grid = new Vec3[sizeX,sizeY,sizeZ];
 
         for (int x = 0; x < v_Grid.GetLength(0); x++)
@@ -34,6 +35,7 @@ public class Vec_Grid : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        // Muestro la Grilla
         if (!Application.isPlaying)
         { return; }
 
