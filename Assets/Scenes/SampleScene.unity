@@ -292,7 +292,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 419406770}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.75, y: 0, z: 1.5}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -311,10 +311,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4e1b6bdae43d44388d9dc31f6c8bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  createdPlanes: 0
   showV_MeshColider: 1
   p_Inside_Mesh: []
   pointsToCheck: []
-  objMesh: {fileID: 419406775}
+  objMesh: {fileID: 0}
+  colP: []
 --- !u!65 &419406773
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -663,10 +665,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4e1b6bdae43d44388d9dc31f6c8bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  createdPlanes: 0
   showV_MeshColider: 1
   p_Inside_Mesh: []
   pointsToCheck: []
   objMesh: {fileID: 1070389926}
+  colP: []
 --- !u!65 &1070389924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -807,7 +811,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1612245488}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -827,8 +831,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 647edf178680e0845b6250ef7bf85d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeX: 1
-  sizeY: 1
-  sizeZ: 1
   showGrid: 1
   pointsInGridSize: 0.1

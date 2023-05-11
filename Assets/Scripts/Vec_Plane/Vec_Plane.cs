@@ -13,6 +13,10 @@ namespace CustomMath
 
         private float p_Distance;
 
+        public Vec3 va;
+        public Vec3 vb;
+        public Vec3 vc;
+
         public Vec3 normal
         {
             get
@@ -43,16 +47,19 @@ namespace CustomMath
         {
             p_Normal = inNormal.normalized;
             p_Distance = 0f - Vec3.Dot(p_Normal, inPoint);
+            va = Vec3.Zero; vb = Vec3.Zero; vc = Vec3.Zero;
         }
 
         public Vec_Plane(Vec3 inNormal, float d)
         {
             p_Normal = inNormal.normalized;
             p_Distance = d;
+            va = Vec3.Zero; vb = Vec3.Zero; vc = Vec3.Zero;
         }
 
         public Vec_Plane(Vec3 a, Vec3 b, Vec3 c)
         {
+            va = a; vb = b; vc = c;
             Vec3 aux = Vec3.Cross(b - a, c - a);
             p_Normal = aux.normalized;
             p_Distance = 0f - Vec3.Dot(p_Normal, a);

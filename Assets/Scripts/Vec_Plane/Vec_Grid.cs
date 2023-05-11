@@ -7,9 +7,9 @@ using System;
 public class Vec_Grid : MonoBehaviour
 {
     public static Vec3[,,] v_Grid;
-    public int sizeX = 1;
-    public int sizeY = 1;
-    public int sizeZ = 1;
+    public static int sizeX = 10;
+    public static int sizeY = 10;
+    public static int sizeZ = 10;
     public bool showGrid;
     public float pointsInGridSize = 0.1f;
     public static float delta = 1f;
