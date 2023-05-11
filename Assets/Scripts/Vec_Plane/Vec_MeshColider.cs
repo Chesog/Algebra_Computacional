@@ -18,6 +18,18 @@ public class Vec_MeshColider : MonoBehaviour
 
     public List<Vec3> colP;
 
+    struct Vec_Ray
+    {
+        public Vec3 origin;
+        public Vec3 destination;
+
+        public Vec_Ray(Vec3 origin, Vec3 destination) 
+        {
+            this.origin = origin;
+            this.destination = destination;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +43,7 @@ public class Vec_MeshColider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        objMesh = GetComponent<MeshFilter>().mesh;
         m_planes.Clear();
         createdPlanes = 0;
 
@@ -44,7 +57,7 @@ public class Vec_MeshColider : MonoBehaviour
 
             Vec_Plane plane = new Vec_Plane(v1, v2, v3);
             plane.normal *= -1;
-            plane.Flip();
+            //plane.Flip();
             m_planes.Add(plane);
             createdPlanes++;
         }
@@ -55,15 +68,6 @@ public class Vec_MeshColider : MonoBehaviour
         //    item.Flip();
         //}
 
-
-        //float nearPX = transform.position.x / Vec_Grid.delta;
-        //float nearPY = transform.position.y / Vec_Grid.delta;
-        //float nearPZ = transform.position.z / Vec_Grid.delta;
-        //
-        //// Redondea para arriba o abajo si es mayor a 0.5f
-        //int x = nearPX - (int)nearPX > 0.5f ? (int)(nearPX + 1.0f) : (int)(nearPX);
-        //int y = nearPY - (int)nearPY > 0.5f ? (int)(nearPY + 1.0f) : (int)(nearPY);
-        //int z = nearPZ - (int)nearPZ > 0.5f ? (int)(nearPZ + 1.0f) : (int)(nearPZ);
 
         pointsToCheck.Clear();
 
@@ -83,11 +87,42 @@ public class Vec_MeshColider : MonoBehaviour
         // Chekea los puntos y si estan dentro de la mesh los agrega a la lista de p_Inside_Mesh
         foreach (var point in pointsToCheck)
         {
+            Vec3 direction = Vec3.Forward * 10f;
+            //int sl_Dir = UnityEngine.Random.Range(1,7);
+            //Debug.Log("sl_Dir " + sl_Dir);
+            //switch (sl_Dir)
+            //{
+            //    case 1:
+            //        direction = Vec3.Up * 10f;
+            //        break;
+            //    case 2:
+            //        direction = Vec3.Down * 10f;
+            //
+            //        break;
+            //    case 3:
+            //        direction = Vec3.Left * 10f;
+            //        break;
+            //    case 4:
+            //        direction = Vec3.Right * 10f;
+            //        break;
+            //    case 5:
+            //        direction = Vec3.Forward * 10f;
+            //        break;
+            //    case 6:
+            //        direction = Vec3.Back * 10f;
+            //        break;
+            //}
+
+            // Hacer un random para la direccion del rayo 
+            // En base a eso definir la direccion 
+            // SI ALGO SALE MAL MALA TUYA 
+
+            Vec_Ray ray = new Vec_Ray(point, direction);
             int counter = 0;
             
             foreach (var plane in m_planes)
             {
-                if (IsPointInPlane(plane, point, out Vec3 collisionPoint))
+                if (IsPointInPlane(plane, ray, out Vec3 collisionPoint))
                 {
                     if (IsValidPlane(plane, collisionPoint))
                     {
@@ -101,7 +136,7 @@ public class Vec_MeshColider : MonoBehaviour
 
             if (counter % 2 == 1)
             {
-                Debug.Log("Point cord " + point);
+                //Debug.Log("Point cord " + point);
                 p_Inside_Mesh.Add(point);
             }
         }
@@ -127,41 +162,50 @@ public class Vec_MeshColider : MonoBehaviour
     // Arreglar Esto Que parece ser donde esta el problema 
     private bool IsValidPlane(Vec_Plane mesh_P, Vec3 point)
     {
-        float x1 = mesh_P.va.x; float y1 = mesh_P.va.y;
-        float x2 = mesh_P.vb.x; float y2 = mesh_P.vb.y;
-        float x3 = mesh_P.vc.x; float y3 = mesh_P.vc.y;
-
-        // Area del triangulo
-        float areaOrig = Mathf.Abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1));
-
-        // Areas de los 3 triangulos hechos con el punto y las esquinas
-        float area1 = Mathf.Abs((x1 - point.x) * (y2 - point.y) - (x2 - point.x) * (y1 - point.y));
-        float area2 = Mathf.Abs((x2 - point.x) * (y3 - point.y) - (x3 - point.x) * (y2 - point.y));
-        float area3 = Mathf.Abs((x3 - point.x) * (y1 - point.y) - (x1 - point.x) * (y3 - point.y));
-
-
-        // Si la suma del area de los 3 triangulos es igual a la del original estamos adentro
-        return Math.Abs(area1 + area2 + area3 - areaOrig) < Vec3.epsilon; //fijatse de cambiar pr comparacion aepsilon
-
-        //chequear con los 3 puntos de plane si el punto pertence al vertice
-        // si pertenece true, y sumo counter
-        //si no false;
+        float x1 = mesh_P.va.x;
+        float x2 = mesh_P.vb.x;
+        float x3 = mesh_P.vc.x;
+        
+        float y1 = mesh_P.va.y;
+        float y2 = mesh_P.vb.y;
+        float y3 = mesh_P.vc.y;
+        
+        float px = point.x;
+        float py = point.y;
+        
+        // get the area of the triangle
+        float areaOrig = Math.Abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1));
+        
+        // get the area of 3 triangles made between the point
+        // and the corners of the triangle
+        float area1 = Math.Abs((x1 - px) * (y2 - py) - (x2 - px) * (y1 - py));
+        float area2 = Math.Abs((x2 - px) * (y3 - py) - (x3 - px) * (y2 - py));
+        float area3 = Math.Abs((x3 - px) * (y1 - py) - (x1 - px) * (y3 - py));
+        
+        // if the sum of the three areas equals the original,
+        // we're inside the triangle!
+        //if (area1 + area2 + area3 == areaOrig)
+        //{
+        //    return true;
+        //}
+        //return false;
+        return Math.Abs(area1 + area2 + area3 - areaOrig) < Vec3.epsilon;
     }
 
     // Chekea Que punto del ray esta en el plano
-    bool IsPointInPlane(Vec_Plane meshPlane, Vec3 originPoint, out Vec3 collisionPoint)
+    bool IsPointInPlane(Vec_Plane meshPlane, Vec_Ray ray, out Vec3 collisionPoint)
     {
         // Si la variable point Coliciona quiero que me devuelva donde coliciono 
         collisionPoint = Vec3.Zero;
 
-        float denom = Vec3.Dot(meshPlane.normal, Vec3.Right * 10f);
+        float denom = Vec3.Dot(meshPlane.normal, ray.destination);
 
         if (Mathf.Abs(denom) > Vec3.epsilon)
         {
-            float t = Vec3.Dot((meshPlane.normal * meshPlane.distance - originPoint), meshPlane.normal) / denom;
+            float t = Vec3.Dot((meshPlane.normal * meshPlane.distance - ray.origin), meshPlane.normal) / denom;
             if (t >= Vec3.epsilon)
             {
-                collisionPoint = originPoint + (Vec3.Right * 10f) * t;
+                collisionPoint = ray.origin + ray.destination * t;
                 return true;
             }
         }
@@ -192,7 +236,7 @@ public class Vec_MeshColider : MonoBehaviour
 
         foreach (var item in pointsToCheck)
         {
-            Gizmos.DrawRay(item,Vec3.Right * 10f);
+            Gizmos.DrawRay(item,Vec3.Forward * 10f);
         }
     }
 }
