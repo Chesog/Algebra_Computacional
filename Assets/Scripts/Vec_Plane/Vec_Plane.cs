@@ -17,6 +17,8 @@ namespace CustomMath
         public Vec3 vb;
         public Vec3 vc;
 
+
+        //The direction in which the plane is pointing
         public Vec3 normal
         {
             get
@@ -29,6 +31,7 @@ namespace CustomMath
             }
         }
 
+        // The distance from 00 of the world to the plane
         public float distance
         {
             get
@@ -41,6 +44,7 @@ namespace CustomMath
             }
         }
 
+        // flip the plane
         public Vec_Plane flipped => new Vec_Plane(-p_Normal, 0f - p_Distance);
 
         public Vec_Plane(Vec3 inNormal, Vec3 inPoint)

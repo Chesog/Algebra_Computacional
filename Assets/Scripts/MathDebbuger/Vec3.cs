@@ -281,6 +281,7 @@ namespace CustomMath
         /// <param name="t"></param>
         /// <returns></returns>
         /// https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html
+        // Punto interpolado entre el inicio y el final 
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
         {
             Mathf.Clamp(t,0,1);
@@ -297,6 +298,7 @@ namespace CustomMath
         /// <param name="t"></param>
         /// <returns></returns>
         /// https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html
+        // lo mismo que el lerp pero se puede pasar de los limites
         public static Vec3 LerpUnclamped(Vec3 a, Vec3 b, float t)
         {
             return a + (b - a) * t;
@@ -333,6 +335,12 @@ namespace CustomMath
 
             return new Vec3(minValueX, minValueY, minValueZ);
         }
+
+        /// <summary>
+        /// Returns the sqr of the vec Magnitude
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
         public static float SqrMagnitude(Vec3 vector)
         {
             return vector.sqrMagnitude;
