@@ -44,7 +44,6 @@ namespace CustomMath
         {
             return new Vec3();
         }
-        #endregion
 
         public float this[int index]
         {
@@ -62,6 +61,8 @@ namespace CustomMath
         {
             get { return new Quat(0, 0, 0, 0f); }
         }
+        #endregion
+
         public static Quat Euler(float xq, float yq, float zq)
         {
             return new Quat(0, 0, 0, 0f);
