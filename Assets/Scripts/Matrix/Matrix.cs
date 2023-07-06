@@ -71,9 +71,9 @@ Matrix4x4 operator(Matrix4x4 lhs, Matrix4x4 rhs)*/
         }
         #endregion
 
-        public Quat rotation() => Rotation();
+        public Quat rotation() => GetRotation();
 
-        private Quat Rotation()
+        private static Quat GetRotation()
         {
             return new Quat(0f, 0f, 0f, 0f);
         }
@@ -83,10 +83,9 @@ Matrix4x4 operator(Matrix4x4 lhs, Matrix4x4 rhs)*/
             return Zero;
         }
 
-        public Vec3 LossyScale()
-        {
-            return new Vec3(0f, 0f, 0f);
-        }
+        public Vec3 lossyScale() => GetLosszScale();
+
+        private static Vec3 GetLosszScale() { return new Vec3(0f, 0f, 0f); }
 
         private static bool isIdentity()
         {

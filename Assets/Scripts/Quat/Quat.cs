@@ -25,24 +25,77 @@ namespace CustomMath
         #endregion
 
         #region Operators
+        /// <summary>
+        /// Checks if the Quat lhs is equal to rhs
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static bool operator ==(Quat lhs, Quat rhs) 
         {
             return (lhs.xq == rhs.xq && lhs.yq == rhs.yq && lhs.zq == rhs.zq && lhs.wq == rhs.wq);
-        } 
+        }
 
+        /// <summary>
+        /// Check if Quat lhs is unequal to rhs
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static bool operator !=(Quat lhs, Quat rhs) 
         {
             return !(lhs == rhs);
         }
 
+        /// <summary>
+        /// Multiply Quaternion x Quaternion
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static Quat operator *(Quat lhs, Quat rhs)
         {
-            return new Quat(0f,0f,0f,0f);
+            float new_xq = lhs.wq * rhs.xq + lhs.xq * rhs.wq + lhs.yq * rhs.zq - lhs.zq * rhs.yq;
+            float new_yq = lhs.wq * rhs.yq + lhs.yq * rhs.wq + lhs.zq * rhs.xq - lhs.xq * rhs.zq;
+            float new_zq = lhs.wq * rhs.zq + lhs.zq * rhs.wq + lhs.xq * rhs.yq - lhs.yq * rhs.xq;
+            float new_wq = lhs.wq * rhs.wq - lhs.xq * rhs.xq - lhs.yq * rhs.yq - lhs.zq * rhs.zq;
+
+            return new Quat(new_xq, new_yq, new_zq, new_wq);
         }
 
-        public static Vec3 operator *(Quat rot, Vec3 point) // Le aplica la rotación a un punto
+        /* https://es.wikipedia.org/wiki/Cuaterni%C3%B3n */
+
+        /// <summary>
+        ///Applies the rotation to the specified point
+        /// </summary>
+        /// <param name="rotation"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static Vec3 operator *(Quat rotation, Vec3 point)
         {
-            return new Vec3();
+            float rotX = rotation.xq * 2f;
+            float rotY = rotation.yq * 2f;
+            float rotZ = rotation.zq * 2f;
+
+            float rotX2 = rotation.xq * rotX;
+            float rotY2 = rotation.yq * rotY;
+            float rotZ2 = rotation.zq * rotZ;
+
+            float rotXY = rotation.xq * rotY;
+            float rotXZ = rotation.xq * rotZ;
+            float rotYZ = rotation.yq * rotZ;
+
+            float rotWX = rotation.wq * rotX;
+            float rotWY = rotation.wq * rotY;
+            float rotWZ = rotation.wq * rotZ;
+
+            Vec3 result = Vec3.Zero;
+
+            result.x = (1f - (rotY2 + rotZ2)) * point.x + (rotXY - rotWZ) * point.y + (rotXZ + rotWY) * point.z;
+            result.y = (rotXY + rotWZ) * point.x + (1f - (rotX2 + rotZ2)) * point.y + (rotYZ - rotWX) * point.z;
+            result.z = (rotXZ - rotWY) * point.x + (rotYZ + rotWX) * point.y + (1f - (rotX2 + rotY2)) * point.z;
+
+            return result;
         }
 
         public float this[int index]
