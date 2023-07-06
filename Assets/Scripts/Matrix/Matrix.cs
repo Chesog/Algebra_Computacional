@@ -330,9 +330,47 @@ namespace CustomMath
         }
 
 
+        /// <summary>
+        /// Returns the transpose of this matrix (Read Only).
+        /// The transposed matrix is the one that has the Matrix4x4's columns exchanged with its rows.
+        /// </summary>
+        /// <returns></returns>
         public Matrix transpose => Transpose(this);
+
+        /// <summary>
+        /// Returns the transpose of this matrix (Read Only).
+        /// The transposed matrix is the one that has the Matrix4x4's columns exchanged with its rows.
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         private Matrix Transpose(Matrix m)
         {
+            float aux;
+
+            aux = m.col2.x;
+            m.col2.x = m.col1.y;
+            m.col1.y = aux;
+
+            aux = m.col3.x;
+            m.col3.x = m.col1.z;
+            m.col1.z = aux;
+
+            aux = m.col4.x;
+            m.col4.x = m.col1.w;
+            m.col1.w = aux;
+
+            aux = m.col3.y;
+            m.col3.y = m.col2.z;
+            m.col2.z = aux;
+
+            aux = m.col4.y;
+            m.col4.y = m.col1.w;
+            m.col1.w = aux;
+
+            aux = m.col4.z;
+            m.col4.z = m.col3.z;
+            m.col3.z = aux;
+
             return m;
         }
 
