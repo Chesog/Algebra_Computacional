@@ -199,18 +199,40 @@ namespace CustomMath
             return ret;
         }
 
+        /// <summary>
+        /// Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis (in that order) whit an Angle.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
         public static Quat Euler(Vec3 angle)
         {
-            return Euler(angle.x,angle.y,angle.z);
+            return Euler(angle.x, angle.y, angle.z);
         }
+        /// <summary>
+        /// Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis (in that order).
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <returns></returns>
         public static Quat EulerAngles(float x, float y, float z)
         {
-            return Euler(x,y,z);
+            return Euler(x, y, z);
         }
+        /// <summary>
+        /// Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis (in that order).
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
         public static Quat EulerAngles(Vec3 angle)
         {
             return Euler(angle.x, angle.y, angle.z);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="q"></param>
+        /// <returns></returns>
         public static Quat Normalize(Quat q)
         {
             float sqrtDot = Mathf.Sqrt(Dot(q, q));
@@ -222,30 +244,67 @@ namespace CustomMath
 
             return new Quat(q.xq / sqrtDot, q.yq / sqrtDot, q.zq / sqrtDot, q.wq / sqrtDot);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Normalize()
         {
             this = Normalize(this);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static float Angle(Quat a, Quat b)
         {
-            return 0f;
-        }
+            float dot = Dot(a, b);
 
+            if (dot > 0.999999f)
+                return 0f;
+            else
+                return (Mathf.Acos(Mathf.Min(Mathf.Abs(dot), 1f)) * 2f * Mathf.Rad2Deg);
+        }
+        /// <summary>
+        /// Returns the rotation of the axis vector usign "Rad"
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="axis"></param>
+        /// <returns></returns>
         public static Quat AngleAxis(float angle, Vec3 axis)
         {
-            return new Quat(0, 0, 0, 0f);
+            axis.Normalize();
+            axis *= Mathf.Sin(angle * Mathf.Deg2Rad * 0.5f);
+            return new Quat(axis.x, axis.y, axis.z, Mathf.Cos(angle * Mathf.Deg2Rad * 0.5f));
         }
-
+        /// <summary>
+        /// Returns the rotation of the axis vector usign "Deg"
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="angle"></param>
+        /// <returns></returns>
         public static Quat AxisAngle(Vec3 axis, float angle)
         {
-            return new Quat(0, 0, 0, 0f);
+            Quat ret = identity;
+            axis.Normalize();
+            axis *= (float)Math.Sin((angle / 2) * Mathf.Deg2Rad);
+            ret.xq = axis.x;
+            ret.yq = axis.y;
+            ret.zq = axis.z;
+            ret.wq = (float)Math.Cos((angle / 2) * Mathf.Deg2Rad);
+            return Normalize(ret);
         }
 
+        /// <summary>
+        /// Return a float value equal to the magnitudes of the two quaternions multiplied together
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static float Dot(Quat a, Quat b)
         {
-            return 0f;
+            return a.xq * b.xq + a.yq * b.yq + a.zq * b.zq + a.wq * b.wq;
         }
 
         public static Quat FromToRotation(Vec3 fromDirection, Vec3 toDirection)
