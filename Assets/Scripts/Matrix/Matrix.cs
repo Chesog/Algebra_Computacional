@@ -170,14 +170,53 @@ namespace CustomMath
         }
 
         public static bool operator !=(Matrix lhs, Matrix rhs) => !(lhs == rhs);
+
+        /// <summary>
+        /// Multiply two M4x4 Row by Column (Component to Component)
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static Matrix operator *(Matrix lhs, Matrix rhs)
         {
-            return Zero;
+            Matrix returnM = Zero;
+
+            returnM.col1.x = lhs.col1.x * rhs.col1.x + lhs.col1.y * rhs.col2.x + lhs.col1.z * rhs.col3.x + lhs.col1.w * rhs.col4.x;
+            returnM.col1.y = lhs.col1.x * rhs.col1.y + lhs.col1.y * rhs.col2.y + lhs.col1.z * rhs.col3.y + lhs.col1.w * rhs.col4.y;
+            returnM.col1.z = lhs.col1.x * rhs.col1.z + lhs.col1.y * rhs.col2.z + lhs.col1.z * rhs.col3.z + lhs.col1.w * rhs.col4.z;
+            returnM.col1.w = lhs.col1.x * rhs.col1.w + lhs.col1.y * rhs.col2.w + lhs.col1.z * rhs.col3.w + lhs.col1.w * rhs.col4.w;
+            returnM.col2.x = lhs.col2.x * rhs.col1.x + lhs.col2.y * rhs.col2.x + lhs.col2.z * rhs.col3.x + lhs.col2.w * rhs.col4.x;
+            returnM.col2.y = lhs.col2.x * rhs.col1.y + lhs.col2.y * rhs.col2.y + lhs.col2.z * rhs.col3.y + lhs.col2.w * rhs.col4.y;
+            returnM.col2.z = lhs.col2.x * rhs.col1.z + lhs.col2.y * rhs.col2.z + lhs.col2.z * rhs.col3.z + lhs.col2.w * rhs.col4.z;
+            returnM.col2.w = lhs.col2.x * rhs.col1.w + lhs.col2.y * rhs.col2.w + lhs.col2.z * rhs.col3.w + lhs.col2.w * rhs.col4.w;
+            returnM.col3.x = lhs.col3.x * rhs.col1.x + lhs.col3.y * rhs.col2.x + lhs.col3.z * rhs.col3.x + lhs.col3.w * rhs.col4.x;
+            returnM.col3.y = lhs.col3.x * rhs.col1.y + lhs.col3.y * rhs.col2.y + lhs.col3.z * rhs.col3.y + lhs.col3.w * rhs.col4.y;
+            returnM.col3.z = lhs.col3.x * rhs.col1.z + lhs.col3.y * rhs.col2.z + lhs.col3.z * rhs.col3.z + lhs.col3.w * rhs.col4.z;
+            returnM.col3.w = lhs.col3.x * rhs.col1.w + lhs.col3.y * rhs.col2.w + lhs.col3.z * rhs.col3.w + lhs.col3.w * rhs.col4.w;
+            returnM.col4.x = lhs.col4.x * rhs.col1.x + lhs.col4.y * rhs.col2.x + lhs.col4.z * rhs.col3.x + lhs.col4.w * rhs.col4.x;
+            returnM.col4.y = lhs.col4.x * rhs.col1.y + lhs.col4.y * rhs.col2.y + lhs.col4.z * rhs.col3.y + lhs.col4.w * rhs.col4.y;
+            returnM.col4.z = lhs.col4.x * rhs.col1.z + lhs.col4.y * rhs.col2.z + lhs.col4.z * rhs.col3.z + lhs.col4.w * rhs.col4.z;
+            returnM.col4.w = lhs.col4.x * rhs.col1.w + lhs.col4.y * rhs.col2.w + lhs.col4.z * rhs.col3.w + lhs.col4.w * rhs.col4.w;
+
+            return returnM;
         }
 
+        /// <summary>
+        /// multiply an M4x4 by an M1x4
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="vector"></param>
+        /// <returns></returns>
         public static Vector4 operator *(Matrix lhs, Vector4 vector)
         {
-            return new Vector4(0f, 0f, 0f, 0f);
+            Vector4 returnV = Vector4.zero;
+
+            returnV.x = lhs.col1.x * vector.x + lhs.col2.x * vector.y + lhs.col3.x * vector.z + lhs.col4.x * vector.w;
+            returnV.y = lhs.col1.y * vector.x + lhs.col2.y * vector.y + lhs.col3.y * vector.z + lhs.col4.y * vector.w;
+            returnV.z = lhs.col1.z * vector.x + lhs.col2.z * vector.y + lhs.col3.z * vector.z + lhs.col4.z * vector.w;
+            returnV.w = lhs.col1.w * vector.x + lhs.col2.w * vector.y + lhs.col3.w * vector.z + lhs.col4.w * vector.w;
+
+            return returnV;
         }
         #endregion
 
