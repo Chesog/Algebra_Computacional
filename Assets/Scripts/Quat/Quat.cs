@@ -110,9 +110,12 @@ namespace CustomMath
             }
         }
 
+        /// <summary>
+        /// Represents the rotation of a quaternion with the axes of the world (The "No Rotation")
+        /// </summary>
         public static Quat identity
         {
-            get { return new Quat(0, 0, 0, 0f); }
+            get { return new Quat(0, 0, 0, 1); }
         }
         #endregion
 
