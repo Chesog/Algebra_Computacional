@@ -222,14 +222,61 @@ namespace CustomMath
 
         public Quat rotation() => GetRotation();
 
-        private static Quat GetRotation()
+        /// <summary>
+        /// Get The matrix rotation o
+        /// </summary>
+        /// <returns></returns>
+        private Quat GetRotation()
         {
-            return new Quat(0f, 0f, 0f, 0f);
+            Matrix matr = this;
+            Quat returnQ = new Quat();
+
+            returnQ.wq = Mathf.Sqrt(Mathf.Max(0, 1 + matr[0, 0] + matr[1, 1] + matr[2, 2])) / 2;
+            returnQ.xq = Mathf.Sqrt(Mathf.Max(0, 1 + matr[0, 0] - matr[1, 1] - matr[2, 2])) / 2;
+            returnQ.yq = Mathf.Sqrt(Mathf.Max(0, 1 - matr[0, 0] + matr[1, 1] - matr[2, 2])) / 2;
+            returnQ.zq = Mathf.Sqrt(Mathf.Max(0, 1 - matr[0, 0] - matr[1, 1] + matr[2, 2])) / 2;
+            returnQ.xq *= Mathf.Sign(returnQ.xq * (matr[2, 1] - matr[1, 2]));
+            returnQ.yq *= Mathf.Sign(returnQ.yq * (matr[0, 2] - matr[2, 0]));
+            returnQ.zq *= Mathf.Sign(returnQ.zq * (matr[1, 0] - matr[0, 1]));
+
+            return returnQ;
         }
 
         public static Matrix Rotate(Quat q)
         {
-            return Zero;
+            float x = q.xq * 2f;
+            float y = q.yq * 2f;
+            float z = q.zq * 2f;
+            float x2 = q.xq * x;
+            float y2 = q.yq * y;
+            float z2 = q.zq * z;
+            float xy = q.xq * y;
+            float xz = q.xq * z;
+            float yz = q.yq * z;
+            float wx = q.wq * x;
+            float wy = q.wq * y;
+            float wz = q.wq * z;
+
+            Matrix resultM = Zero;
+
+            resultM.col1.x = 1f - (y2 + z2);
+            resultM.col1.y = xy + wz;
+            resultM.col1.z = xz - wy;
+            resultM.col1.w = 0f;
+            resultM.col2.x = xy - wz;
+            resultM.col2.y = 1f - (x2 + z2);
+            resultM.col2.z = yz + wx;
+            resultM.col2.w = 0f;
+            resultM.col3.x = xz + wy;
+            resultM.col3.y = yz - wx;
+            resultM.col3.z = 1f - (x2 + y2);
+            resultM.col3.w = 0f;
+            resultM.col4.x = 0f;
+            resultM.col4.y = 0f;
+            resultM.col4.z = 0f;
+            resultM.col4.w = 1f;
+
+            return resultM;
         }
 
         public Vec3 lossyScale() => GetLosszScale();
