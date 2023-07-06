@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace CustomMath
 {
@@ -15,6 +16,14 @@ namespace CustomMath
         #endregion
 
         #region Constructor
+
+        /// <summary>
+        /// Constructor For A Quaternion
+        /// </summary>
+        /// <param name="xq"></param>
+        /// <param name="yq"></param>
+        /// <param name="zq"></param>
+        /// <param name="wq"></param>
         public Quat(float xq, float yq, float zq, float wq)
         {
             this.xq = xq;
@@ -31,7 +40,7 @@ namespace CustomMath
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static bool operator ==(Quat lhs, Quat rhs) 
+        public static bool operator ==(Quat lhs, Quat rhs)
         {
             return (lhs.xq == rhs.xq && lhs.yq == rhs.yq && lhs.zq == rhs.zq && lhs.wq == rhs.wq);
         }
@@ -42,7 +51,7 @@ namespace CustomMath
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
         /// <returns></returns>
-        public static bool operator !=(Quat lhs, Quat rhs) 
+        public static bool operator !=(Quat lhs, Quat rhs)
         {
             return !(lhs == rhs);
         }
@@ -98,15 +107,53 @@ namespace CustomMath
             return result;
         }
 
+        /// <summary>
+        /// Select a Number Between 1 to 4
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public float this[int index]
         {
             get
             {
-                return 0;
+                switch (index)
+                {
+                    case 1:
+                        return xq;
+                        break;
+                    case 2:
+                        return yq;
+                        break;
+                    case 3:
+                        return zq;
+                        break;
+                    case 4:
+                        return wq;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("Index out of Range!");
+                }
             }
             set
             {
-
+                switch (index)
+                {
+                    case 1:
+                        xq = value;
+                        break;
+                    case 2:
+                        yq = value;
+                        break;
+                    case 3:
+                        zq = value;
+                        break;
+                    case 4:
+                        wq = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("Index out of Range!");
+                }
             }
         }
 
@@ -119,22 +166,49 @@ namespace CustomMath
         }
         #endregion
 
+        /// <summary>
+        /// Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis (in that order).
+        /// </summary>
+        /// <param name="xq"></param>
+        /// <param name="yq"></param>
+        /// <param name="zq"></param>
+        /// <returns></returns>
         public static Quat Euler(float xq, float yq, float zq)
         {
-            return new Quat(0, 0, 0, 0f);
+            /* https://docs.unity3d.com/es/530/ScriptReference/Quaternion.Euler.html */
+            float sin;
+            float cos;
+            Quat qX, qY, qZ;
+            Quat ret = identity;
+
+            sin = Mathf.Sin(Mathf.Deg2Rad * xq * 0.5f); //For the imaginary part, we use Sin
+            cos = Mathf.Cos(Mathf.Deg2Rad * xq * 0.5f); //For the real part, we use Cos
+            qX = new Quat(sin, 0, 0, cos);
+
+            sin = Mathf.Sin(Mathf.Deg2Rad * yq * 0.5f);
+            cos = Mathf.Cos(Mathf.Deg2Rad * yq * 0.5f);
+            qY = new Quat(0, sin, 0, cos);
+
+            sin = Mathf.Sin(Mathf.Deg2Rad * zq * 0.5f);
+            cos = Mathf.Cos(Mathf.Deg2Rad * zq * 0.5f);
+            qZ = new Quat(0, 0, sin, cos);
+
+            ret = qY * qX * qZ;
+
+            return ret;
         }
 
         public static Quat Euler(Vec3 angle)
         {
-            return new Quat(0, 0, 0, 0f);
+            return Euler(angle.x,angle.y,angle.z);
         }
         public static Quat EulerAngles(float x, float y, float z)
         {
-            return new Quat(0, 0, 0, 0f);
+            return Euler(x,y,z);
         }
         public static Quat EulerAngles(Vec3 angle)
         {
-            return new Quat(0, 0, 0, 0f);
+            return Euler(angle.x, angle.y, angle.z);
         }
         public static Quat Normalize(Quat q)
         {
@@ -156,7 +230,7 @@ namespace CustomMath
             return new Quat(0, 0, 0, 0f);
         }
 
-        public static Quat AxisAngle(Vec3 axis, float angle) 
+        public static Quat AxisAngle(Vec3 axis, float angle)
         {
             return new Quat(0, 0, 0, 0f);
         }
@@ -202,7 +276,7 @@ namespace CustomMath
             return new Quat(0, 0, 0, 0f);
         }
 
-        public static Quat Slerp(Quat a, Quat b, float t) 
+        public static Quat Slerp(Quat a, Quat b, float t)
         {
             return new Quat(0, 0, 0, 0f);
         }
@@ -236,9 +310,9 @@ namespace CustomMath
             axis = new Vec3();
         }
 
-        public string ToString() 
+        public string ToString()
         {
-           return new string ("Xq Value : " + this.xq + ", Yq Value : " + this.yq + ", Zq Value : " + this.zq + ", Wq Value : " + this.wq);
+            return new string("Xq Value : " + this.xq + ", Yq Value : " + this.yq + ", Zq Value : " + this.zq + ", Wq Value : " + this.wq);
         }
     }
 }
