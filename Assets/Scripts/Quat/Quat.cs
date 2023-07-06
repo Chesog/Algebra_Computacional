@@ -337,14 +337,39 @@ namespace CustomMath
             return retQ;
         }
 
+        /// <summary>
+        /// Interpolates between a and b by t and normalizes the result afterwards. The parameter t is clamped to the range [0, 1].
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static Quat Lerp(Quat a, Quat b, float t)
         {
-            return new Quat(0, 0, 0, 0f);
-        }
+            /* https://docs.unity3d.com/ScriptReference/Quaternion.Lerp.html */
 
+            return LerpUnclamped(a, b, Mathf.Clamp01(t));
+        }
+        /// <summary>
+        /// nterpolates between a and b by t and normalizes the result afterwards. The parameter t is not clamped.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static Quat LerpUnclamped(Quat a, Quat b, float t)
         {
-            return new Quat(0, 0, 0, 0f);
+            /* https://docs.unity3d.com/ScriptReference/Quaternion.LerpUnclamped.html */
+            Quat retQ;
+            float time = 1 - t;
+            retQ.xq = time * a.xq + t * b.xq;
+            retQ.yq = time * a.yq + t * b.yq;
+            retQ.zq = time * a.zq + t * b.zq;
+            retQ.wq = time * a.wq + t * b.wq;
+
+            retQ.Normalize();
+
+            return retQ;
         }
 
 
