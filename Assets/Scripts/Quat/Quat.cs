@@ -322,9 +322,19 @@ namespace CustomMath
             return AngleAxis(angle, axis.normalized);
         }
 
+        /// <summary>
+        /// Returns the Inverse of rotation.
+        /// </summary>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
         public static Quat Inverse(Quat rotation)
         {
-            return new Quat(0, 0, 0, 0f);
+            Quat retQ;
+            retQ.xq = -rotation.xq;
+            retQ.yq = -rotation.yq;
+            retQ.zq = -rotation.zq;
+            retQ.wq = rotation.wq;
+            return retQ;
         }
 
         public static Quat Lerp(Quat a, Quat b, float t)
