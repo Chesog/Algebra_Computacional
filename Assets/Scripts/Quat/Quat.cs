@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Security.Principal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -212,7 +213,14 @@ namespace CustomMath
         }
         public static Quat Normalize(Quat q)
         {
-            return new Quat(0, 0, 0, 0f);
+            float sqrtDot = Mathf.Sqrt(Dot(q, q));
+
+            if (sqrtDot < Mathf.Epsilon)
+            {
+                return identity;
+            }
+
+            return new Quat(q.xq / sqrtDot, q.yq / sqrtDot, q.zq / sqrtDot, q.wq / sqrtDot);
         }
 
         public void Normalize()
