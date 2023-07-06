@@ -279,9 +279,16 @@ namespace CustomMath
             return resultM;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public Vec3 lossyScale() => GetLosszScale();
 
-        private static Vec3 GetLosszScale() { return new Vec3(0f, 0f, 0f); }
+        private Vec3 GetLosszScale() 
+        {
+            return new Vec3(GetColumn(1).magnitude, GetColumn(2).magnitude, GetColumn(3).magnitude);
+        }
 
         private static bool isIdentity()
         {
