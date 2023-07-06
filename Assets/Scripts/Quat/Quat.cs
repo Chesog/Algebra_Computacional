@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
@@ -229,7 +229,7 @@ namespace CustomMath
             return Euler(angle.x, angle.y, angle.z);
         }
         /// <summary>
-        /// 
+        /// Given a quaternion of the form Q=a+bi+cj+dk, the normalized quaternion is defined as Q/√a2+b2+c2+d2.
         /// </summary>
         /// <param name="q"></param>
         /// <returns></returns>
@@ -244,21 +244,23 @@ namespace CustomMath
 
             return new Quat(q.xq / sqrtDot, q.yq / sqrtDot, q.zq / sqrtDot, q.wq / sqrtDot);
         }
+
         /// <summary>
-        /// 
+        /// Given a quaternion of the form Q=a+bi+cj+dk, the normalized quaternion is defined as Q/√a2+b2+c2+d2.
         /// </summary>
         public void Normalize()
         {
             this = Normalize(this);
         }
         /// <summary>
-        /// 
+        /// Returns the angle in degrees between two rotations a and b.
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
         public static float Angle(Quat a, Quat b)
         {
+            /* https://docs.unity3d.com/ScriptReference/Quaternion.Angle.html */
             float dot = Dot(a, b);
 
             if (dot > 0.999999f)
@@ -307,9 +309,17 @@ namespace CustomMath
             return a.xq * b.xq + a.yq * b.yq + a.zq * b.zq + a.wq * b.wq;
         }
 
+        /// <summary>
+        /// Creates a rotation which rotates from fromDirection to toDirection.
+        /// </summary>
+        /// <param name="fromDirection"></param>
+        /// <param name="toDirection"></param>
+        /// <returns></returns>
         public static Quat FromToRotation(Vec3 fromDirection, Vec3 toDirection)
         {
-            return new Quat(0, 0, 0, 0f);
+            Vec3 axis = Vec3.Cross(fromDirection, toDirection);
+            float angle = Vec3.Angle(fromDirection, toDirection);
+            return AngleAxis(angle, axis.normalized);
         }
 
         public static Quat Inverse(Quat rotation)
