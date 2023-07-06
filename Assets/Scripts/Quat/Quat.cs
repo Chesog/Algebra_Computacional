@@ -372,15 +372,25 @@ namespace CustomMath
             return retQ;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns></returns>
         public static Quat SetLookRotation(Vec3 view)
         {
             return new Quat(0, 0, 0, 0f);
         }
 
-        public static Quat SetLookRotation(Vec3 view, Vec3 upwards)
+        /// <summary>
+        /// Set new Values for "SetLookRotation"
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="upwards"></param>
+        /// <returns></returns>
+        public void SetLookRotation(Vec3 view, Vec3 upwards)
         {
-            return new Quat(0, 0, 0, 0f);
+            this = LookRotation(view, upwards);
         }
 
         public static Quat RotateTowards(Quat from, Quat to, float maxDegreesDelta)
@@ -398,6 +408,13 @@ namespace CustomMath
             return new Quat(0, 0, 0, 0f);
         }
 
+        /// <summary>
+        /// Set new values for a Quat
+        /// </summary>
+        /// <param name="new_xq"></param>
+        /// <param name="new_yq"></param>
+        /// <param name="new_zq"></param>
+        /// <param name="new_wq"></param>
         public void Set(float new_xq, float new_yq, float new_zq, float new_wq)
         {
             xq = new_xq;
@@ -406,14 +423,35 @@ namespace CustomMath
             wq = new_wq;
         }
 
-        public static Quat SetFromToRotation(Vec3 fromDirection, Vec3 toDirection)
+        /// <summary>
+        /// Set New Values for "SetFromToRotation"
+        /// </summary>
+        /// <param name="fromDirection"></param>
+        /// <param name="toDirection"></param>
+        public void SetFromToRotation(Vec3 fromDirection, Vec3 toDirection)
         {
-            return new Quat(0, 0, 0, 0f);
+            this = FromToRotation(fromDirection, toDirection);
         }
 
-        public static Quat LookRotation(Vec3 forward, Vec3 upwards)
+        /// <summary>
+        /// public static Quaternion LookRotation(Vector3 forward, Vector3 upwards = Vector3.up); 
+        /// </summary>
+        /// <param name="forward"></param>
+        /// <param name="upwards"></param>
+        /// <returns></returns>
+        public static Quat LookRotation(Vec3 forward,Vec3 upwards)
         {
-            return new Quat(0, 0, 0, 0f);
+            Vec3 dir = (upwards - forward).normalized;
+            Vec3 rotAxis = Vec3.Cross(Vec3.Forward, dir);
+            float dot = Vec3.Dot(Vec3.Forward, dir);
+
+            Quat retQ;
+            retQ.xq = rotAxis.x;
+            retQ.yq = rotAxis.y;
+            retQ.zq = rotAxis.z;
+            retQ.wq = dot + 1;
+
+            return Normalize(retQ);
         }
 
         public void ToAngleAxis(out float angle, out Vec3 axis)
@@ -422,6 +460,10 @@ namespace CustomMath
             axis = new Vec3();
         }
 
+        /// <summary>
+        /// Returns the values of a Quat in a string
+        /// </summary>
+        /// <returns></returns>
         public string ToString()
         {
             return new string("Xq Value : " + this.xq + ", Yq Value : " + this.yq + ", Zq Value : " + this.zq + ", Wq Value : " + this.wq);
