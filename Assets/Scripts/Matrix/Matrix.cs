@@ -390,15 +390,33 @@ namespace CustomMath
             return Zero;
         }
 
+        /// <summary>
+        /// Creates a translation, rotation and scaling matrix.
+        /// The returned matrix is such that it places objects at position pos, oriented in rotation q and scaled by s.
+        /// </summary>
+        /// <param name="translation"></param>
+        /// <param name="rotation"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
         public static Matrix TRS(Vec3 translation, Quat rotation, Vec3 scale)
         {
-            return Zero;
+            Matrix t = Translate(translation);
+            Matrix r = Rotate(rotation);
+            Matrix s = Scale(scale);
+
+            return t * r * s;
         }
 
-        public static Matrix SetTRS(Vec3 pos, Quat q, Quat s)
+        /// <summary>
+        /// Set the TRS Matrix
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="q"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public void SetTRS(Vec3 pos, Quat q, Vec3 s)
         {
-            return Zero;
-
+            this = TRS(pos, q, s);
         }
 
         public bool ValidTRS()
@@ -407,7 +425,7 @@ namespace CustomMath
         }
 
         /// <summary>
-        /// Returns the specified column (From 1 to 4)
+        /// Returns the specified column (From 0 to 3)
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -415,32 +433,30 @@ namespace CustomMath
         {
             switch (index)
             {
-                case 1:
+                case 0:
                     return col1;
-                    break;
-                case 2:
+                case 1:
                     return col2;
-                    break;
-                case 3:
+                case 2:
                     return col3;
-                    break;
-                case 4:
+                case 3:
                     return col4;
-                    break;
                 default:
                     throw new IndexOutOfRangeException();
-                    break;
             }
         }
 
         public void SetColumn(int index, Vector4 column)
         {
-
+            this[0, index] = column.x;
+            this[1, index] = column.y;
+            this[2, index] = column.z;
+            this[3, index] = column.w;
         }
 
 
         /// <summary>
-        ///  Returns the specified row (From 1 to 4)
+        ///  Returns the specified row (From 0 to 3)
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -449,26 +465,24 @@ namespace CustomMath
         {
             switch (index)
             {
-                case 1:
+                case 0:
                     return new Vector4(col1.x, col2.x, col3.x, col4.x);
-                    break;
-                case 2:
+                case 1:
                     return new Vector4(col1.y, col2.y, col3.y, col4.y);
-                    break;
-                case 3:
+                case 2:
                     return new Vector4(col1.z, col2.z, col3.z, col4.z);
-                    break;
-                case 4:
+                case 3:
                     return new Vector4(col1.w, col2.w, col3.w, col4.w);
-                    break;
                 default:
                     throw new IndexOutOfRangeException();
-                    break;
             }
         }
         public void SetRow(int index, Vector4 row)
         {
-
+            this[index, 0] = row.x;
+            this[index, 1] = row.y;
+            this[index, 2] = row.z;
+            this[index, 3] = row.w;
         }
         public Vec3 MultiplyPoint(Vec3 point)
         {
