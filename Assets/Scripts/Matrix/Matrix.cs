@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* https://referencesource.microsoft.com/#System.Numerics/System/Numerics/Matrix4x4.cs */
+
 namespace CustomMath
 {
     public struct Matrix
@@ -27,7 +29,7 @@ namespace CustomMath
         #region Operators
         private static readonly Matrix Zero = new Matrix(new Vector4(0f, 0f, 0f, 0f), new Vector4(0f, 0f, 0f, 0f), new Vector4(0f, 0f, 0f, 0f), new Vector4(0f, 0f, 0f, 0f));
         private static readonly Matrix Identity = new Matrix(new Vector4(1f, 0f, 0f, 0f), new Vector4(0f, 1f, 0f, 0f), new Vector4(0f, 0f, 1f, 0f), new Vector4(0f, 0f, 0f, 1f));
-        
+
         /// <summary>
         /// Select a index between 0 and 15
         /// </summary>
@@ -97,7 +99,7 @@ namespace CustomMath
                 switch (index)
                 {
                     case 0:
-                         col1.x = value;
+                        col1.x = value;
                         break;
                     case 1:
                         col1.y = value;
@@ -293,14 +295,20 @@ namespace CustomMath
         /// is a convenience property which attempts to match the scale from the matrix as much as possible. If the given matrix is orthogonal, the value will be correct.
         /// </summary>
         /// <returns></returns>
-        private Vec3 GetLosszScale() 
+        private Vec3 GetLosszScale()
         {
             return new Vec3(GetColumn(1).magnitude, GetColumn(2).magnitude, GetColumn(3).magnitude);
         }
 
-        private static bool isIdentity()
+        /// <summary>
+        /// Returns whether the matrix is the identity matrix.
+        /// </summary>
+        private bool isIdentity()
         {
-            return false;
+            return col1.x == 1f && col2.y == 1f && col3.z == 1f && col4.w == 1f
+                && col1.y == 0f && col2.x == 0f && col3.y == 0f && col4.y == 0f
+                && col1.z == 0f && col2.z == 0f && col3.x == 0f && col4.z == 0f
+                && col1.w == 0f && col2.w == 0f && col3.w == 0f && col4.x == 0f;
         }
 
         /// <summary>
@@ -375,19 +383,73 @@ namespace CustomMath
         }
 
         public Matrix inverse => Inverse(this);
+        /// <summary>
+        /// The inverse of this matrix. (Read Only)
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         private Matrix Inverse(Matrix m)
         {
             return m;
         }
 
+        /// <summary>
+        /// Creates a scaling matrix.
+        /// Returned matrix is such that scales along coordinate axes by a vector v.
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
         public static Matrix Scale(Vec3 vector)
         {
-            return Zero;
+            Matrix retMat;
+
+            retMat.col1.x = vector.x;
+            retMat.col1.y = 0.0f;
+            retMat.col1.z = 0.0f;
+            retMat.col1.w = 0.0f;
+            retMat.col2.x = 0.0f;
+            retMat.col2.y = vector.y;
+            retMat.col2.z = 0.0f;
+            retMat.col2.w = 0.0f;
+            retMat.col3.x = 0.0f;
+            retMat.col3.y = 0.0f;
+            retMat.col3.z = vector.z;
+            retMat.col3.w = 0.0f;
+            retMat.col4.x = 0.0f;
+            retMat.col4.y = 0.0f;
+            retMat.col4.z = 0.0f;
+            retMat.col4.w = 1f;
+
+            return retMat;
         }
 
+        /// <summary>
+        /// Creates a translation matrix.
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
         public static Matrix Translate(Vec3 vector)
         {
-            return Zero;
+            Matrix result = Zero;
+
+            result.col1.x = 1f;
+            result.col1.y = 0f;
+            result.col1.z = 0f;
+            result.col1.w = vector.x;
+            result.col2.x = 0f;
+            result.col2.y = 1f;
+            result.col2.z = 0f;
+            result.col2.w = vector.y;
+            result.col3.x = 0f;
+            result.col3.y = 0f;
+            result.col3.z = 1f;
+            result.col3.w = vector.z;
+            result.col4.x = 0f;
+            result.col4.y = 0f;
+            result.col4.z = 0f;
+            result.col4.w = 1f;
+
+            return result;
         }
 
         /// <summary>
@@ -484,21 +546,63 @@ namespace CustomMath
             this[index, 2] = row.z;
             this[index, 3] = row.w;
         }
+
+        /// <summary>
+        /// Transforms a position by this matrix (generic).
+        /// Returns a position v transformed by the current fully arbitrary matrix. If the matrix is a regular 3D transformation matrix, it is much faster to use 
+        /// MultiplyPoint3x4 instead. MultiplyPoint is slower, but can handle projective transformations as well.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public Vec3 MultiplyPoint(Vec3 point)
         {
-            return Vec3.Zero;
-        }
+            Vec3 retVec;
 
+            retVec.x = (float)((double)col1.x * (double)point.x + (double)col2.x * (double)point.y + (double)col3.x * (double)point.z) + col4.x;
+            retVec.y = (float)((double)col1.y * (double)point.x + (double)col2.y * (double)point.y + (double)col3.y * (double)point.z) + col4.y;
+            retVec.z = (float)((double)col1.z * (double)point.x + (double)col2.z * (double)point.y + (double)col3.z * (double)point.z) + col4.z;
+
+            float num = 1f / ((float)((double)col1.w * (double)point.x + (double)col2.w * (double)point.y + (double)col3.w * (double)point.z) + col4.w);
+            retVec.x *= num;
+            retVec.y *= num;
+            retVec.z *= num;
+
+            return retVec;
+        }
+        /// <summary>
+        /// Transforms a position by this matrix (fast).
+        /// Returns a position v transformed by the current transformation matrix. This function is a faster version of MultiplyPoint; but it can only handle regular 3D
+        /// transformations. MultiplyPoint is slower, but can handle projective transformations as well.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
         public Vec3 MultiplyPoint3x4(Vec3 point)
         {
-            return Vec3.Zero;
-        }
+            Vec3 retVec;
 
+            retVec.x = (float)((double)col1.x * (double)point.x + (double)col2.x * (double)point.y + (double)col3.x * (double)point.z) + col4.x;
+            retVec.y = (float)((double)col1.y * (double)point.x + (double)col2.y * (double)point.y + (double)col3.y * (double)point.z) + col4.y;
+            retVec.z = (float)((double)col1.z * (double)point.x + (double)col2.z * (double)point.y + (double)col3.z * (double)point.z) + col4.z;
+
+            return retVec;
+        }
+        /// <summary>
+        /// Transforms a direction by this matrix.
+        /// This function is similar to MultiplyPoint; but it transforms directions and not positions. When transforming a direction, only the rotation part of the matrix 
+        /// is taken into account.
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <returns></returns>
         public Vec3 MultiplyVector(Vec3 vector)
         {
-            return Vec3.Zero;
-        }
+            Vec3 retVec;
 
+            retVec.x = (float)((double)col1.x * (double)vector.x + (double)col2.x * (double)vector.y + (double)col3.x * (double)vector.z);
+            retVec.z = (float)((double)col1.z * (double)vector.x + (double)col2.z * (double)vector.y + (double)col3.z * (double)vector.z);
+            retVec.y = (float)((double)col1.y * (double)vector.x + (double)col2.y * (double)vector.y + (double)col3.y * (double)vector.z);
+
+            return retVec;
+        }
         public Vec3 GetPosition()
         {
             return Vec3.Zero;
