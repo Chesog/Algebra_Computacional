@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Security.Principal;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace CustomMath
 {
@@ -373,17 +368,17 @@ namespace CustomMath
         }
 
         /// <summary>
-        /// 
+        /// Set new Values for "LookRotation"
         /// </summary>
         /// <param name="view"></param>
         /// <returns></returns>
-        public static Quat SetLookRotation(Vec3 view)
+        public void SetLookRotation(Vec3 view)
         {
-            return new Quat(0, 0, 0, 0f);
+            this = LookRotation(view, Vec3.Up);
         }
 
         /// <summary>
-        /// Set new Values for "SetLookRotation"
+        /// Set new Values for "LookRotation"
         /// </summary>
         /// <param name="view"></param>
         /// <param name="upwards"></param>
@@ -393,19 +388,75 @@ namespace CustomMath
             this = LookRotation(view, upwards);
         }
 
+        /// <summary>
+        /// The from quaternion is rotated towards to by an angular step of maxDegreesDelta (but note that the rotation will not overshoot).
+        /// Negative values of maxDegreesDelta will move away from to until the rotation is exactly the opposite direction.
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="maxDegreesDelta"></param>
+        /// <returns></returns>
         public static Quat RotateTowards(Quat from, Quat to, float maxDegreesDelta)
         {
-            return new Quat(0, 0, 0, 0f);
-        }
+            /* https://docs.unity3d.com/ScriptReference/Quaternion.RotateTowards.html */
 
+            float angle = Angle(from, to);
+
+            if (angle == 0f)
+            {
+                return to;
+            }
+
+            return SlerpUnclamped(from, to, Mathf.Min(1f, maxDegreesDelta / angle));
+        }
+        /// <summary>
+        /// Spherically interpolates between quaternions a and b by ratio t. The parameter t is clamped to the range [0, 1].
+        /// Use this to create a rotation which smoothly interpolates between the first quaternion a to the second quaternion b, based on the value of the 
+        /// parameter t. If the value of the parameter is close to 0, the output will be close to a, if it is close to 1, the output will be close to b.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static Quat Slerp(Quat a, Quat b, float t)
         {
-            return new Quat(0, 0, 0, 0f);
+            return SlerpUnclamped(a, b, Mathf.Clamp01(t));
         }
 
+        /// <summary>
+        /// Spherically interpolates between a and b by t. The parameter t is not clamped.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static Quat SlerpUnclamped(Quat a, Quat b, float t)
         {
-            return new Quat(0, 0, 0, 0f);
+            /* https://docs.unity3d.com/ScriptReference/Quaternion.SlerpUnclamped.html */
+
+            Quat retQ;
+
+            float time = 1 - t;
+
+            float wa, wb;
+
+            float angle = Mathf.Acos(Dot(a, b));
+
+            angle = Mathf.Abs(angle);
+
+            float sn = Mathf.Sin(angle);
+
+            wa = Mathf.Sin(time * angle) / sn;
+            wb = Mathf.Sin((1 - time) * angle) / sn;
+
+            retQ.xq = wa * a.xq + wb * b.xq;
+            retQ.yq = wa * a.yq + wb * b.yq;
+            retQ.zq = wa * a.zq + wb * b.zq;
+            retQ.wq = wa * a.wq + wb * b.wq;
+
+            retQ.Normalize();
+
+            return retQ;
         }
 
         /// <summary>
@@ -454,10 +505,23 @@ namespace CustomMath
             return Normalize(retQ);
         }
 
+        /// <summary>
+        /// Converts a rotation to angle-axis representation (angles in degrees).
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="axis"></param>
         public void ToAngleAxis(out float angle, out Vec3 axis)
         {
-            angle = 0.0f;
-            axis = new Vec3();
+            angle = 2 * Mathf.Acos(wq);
+            if (Mathf.Abs(angle) < kEpsilon)
+            {
+                angle *= Mathf.Deg2Rad;
+                axis = new Vec3(1, 0, 0);
+            }
+            float div = 1 / Mathf.Sqrt(1 - Mathf.Sqrt(wq));
+            angle *= Mathf.Deg2Rad;
+            axis = new Vec3(xq * div, yq * div, zq * div);
+
         }
 
         /// <summary>
