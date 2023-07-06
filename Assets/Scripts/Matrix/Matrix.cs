@@ -280,11 +280,19 @@ namespace CustomMath
         }
 
         /// <summary>
-        /// 
+        /// Attempts to get a scale value from the matrix. (Read Only)
+        /// Scale can only be represented correctly by a 3x3 matrix instead of a 3 component vector, if the given matrix has been skewed for example. lossyScale 
+        /// is a convenience property which attempts to match the scale from the matrix as much as possible. If the given matrix is orthogonal, the value will be correct.
         /// </summary>
         /// <returns></returns>
         public Vec3 lossyScale() => GetLosszScale();
 
+        /// <summary>
+        /// Attempts to get a scale value from the matrix. (Read Only)
+        /// Scale can only be represented correctly by a 3x3 matrix instead of a 3 component vector, if the given matrix has been skewed for example. lossyScale 
+        /// is a convenience property which attempts to match the scale from the matrix as much as possible. If the given matrix is orthogonal, the value will be correct.
+        /// </summary>
+        /// <returns></returns>
         private Vec3 GetLosszScale() 
         {
             return new Vec3(GetColumn(1).magnitude, GetColumn(2).magnitude, GetColumn(3).magnitude);
@@ -295,21 +303,41 @@ namespace CustomMath
             return false;
         }
 
+        /// <summary>
+        ///  the determinant is a scalar value that is a function of the entries of a square matrix.
+        /// </summary>
         public float determinant => Determinant(this);
+        /// <summary>
+        ///  the determinant is a scalar value that is a function of the entries of a square matrix.
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         private static float Determinant(Matrix m)
         {
-            return 0f;
+            return
+                m[0, 3] * m[1, 2] * m[2, 1] * m[3, 0] - m[0, 2] * m[1, 3] * m[2, 1] * m[3, 0] -
+                m[0, 3] * m[1, 1] * m[2, 2] * m[3, 0] + m[0, 1] * m[1, 3] * m[2, 2] * m[3, 0] +
+                m[0, 2] * m[1, 1] * m[2, 3] * m[3, 0] - m[0, 1] * m[1, 2] * m[2, 3] * m[3, 0] -
+                m[0, 3] * m[1, 2] * m[2, 0] * m[3, 1] + m[0, 2] * m[1, 3] * m[2, 0] * m[3, 1] +
+                m[0, 3] * m[1, 0] * m[2, 2] * m[3, 1] - m[0, 0] * m[1, 3] * m[2, 2] * m[3, 1] -
+                m[0, 2] * m[1, 0] * m[2, 3] * m[3, 1] + m[0, 0] * m[1, 2] * m[2, 3] * m[3, 1] +
+                m[0, 3] * m[1, 1] * m[2, 0] * m[3, 2] - m[0, 1] * m[1, 3] * m[2, 0] * m[3, 2] -
+                m[0, 3] * m[1, 0] * m[2, 1] * m[3, 2] + m[0, 0] * m[1, 3] * m[2, 1] * m[3, 2] +
+                m[0, 1] * m[1, 0] * m[2, 3] * m[3, 2] - m[0, 0] * m[1, 1] * m[2, 3] * m[3, 2] -
+                m[0, 2] * m[1, 1] * m[2, 0] * m[3, 3] + m[0, 1] * m[1, 2] * m[2, 0] * m[3, 3] +
+                m[0, 2] * m[1, 0] * m[2, 1] * m[3, 3] - m[0, 0] * m[1, 2] * m[2, 1] * m[3, 3] -
+                m[0, 1] * m[1, 0] * m[2, 2] * m[3, 3] + m[0, 0] * m[1, 1] * m[2, 2] * m[3, 3];
         }
 
 
         public Matrix transpose => Transpose(this);
-        private static Matrix Transpose(Matrix m)
+        private Matrix Transpose(Matrix m)
         {
             return m;
         }
 
         public Matrix inverse => Inverse(this);
-        private static Matrix Inverse(Matrix m)
+        private Matrix Inverse(Matrix m)
         {
             return m;
         }
