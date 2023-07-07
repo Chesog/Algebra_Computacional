@@ -10,19 +10,44 @@ namespace CustomMath
     public struct Matrix
     {
         #region Variables
-        public Vector4 col1;
-        public Vector4 col2;
-        public Vector4 col3;
-        public Vector4 col4;
+        public float m00;
+        public float m10;
+        public float m20;
+        public float m30;
+        public float m01;
+        public float m11;
+        public float m21;
+        public float m31;
+        public float m02;
+        public float m12;
+        public float m22;
+        public float m32;
+        public float m03;
+        public float m13;
+        public float m23;
+        public float m33;
+
         #endregion
 
         #region Constructor
         public Matrix(Vector4 col1, Vector4 col2, Vector4 col3, Vector4 col4)
         {
-            this.col1 = col1;
-            this.col2 = col2;
-            this.col3 = col3;
-            this.col4 = col4;
+            m00 = col1.x;
+            m01 = col2.x;
+            m02 = col3.x;
+            m03 = col4.x;
+            m10 = col1.y;
+            m11 = col2.y;
+            m12 = col3.y;
+            m13 = col4.y;
+            m20 = col1.z;
+            m21 = col2.z;
+            m22 = col3.z;
+            m23 = col4.z;
+            m30 = col1.w;
+            m31 = col2.w;
+            m32 = col3.w;
+            m33 = col4.w;
         }
         #endregion
 
@@ -43,55 +68,39 @@ namespace CustomMath
                 switch (index)
                 {
                     case 0:
-                        return col1.x;
-                        break;
+                        return m00;
                     case 1:
-                        return col1.y;
-                        break;
+                        return m10;
                     case 2:
-                        return col1.z;
-                        break;
+                        return m20;
                     case 3:
-                        return col1.w;
-                        break;
+                        return m30;
                     case 4:
-                        return col2.x;
-                        break;
+                        return m01;
                     case 5:
-                        return col2.y;
-                        break;
+                        return m11;
                     case 6:
-                        return col2.z;
-                        break;
+                        return m21;
                     case 7:
-                        return col2.w;
-                        break;
+                        return m31;
                     case 8:
-                        return col3.x;
-                        break;
+                        return m02;
                     case 9:
-                        return col3.y;
-                        break;
+                        return m12;
                     case 10:
-                        return col3.z;
-                        break;
+                        return m22;
                     case 11:
-                        return col3.w;
-                        break;
+                        return m32;
                     case 12:
-                        return col4.x;
-                        break;
+                        return m03;
                     case 13:
-                        return col4.y;
-                        break;
+                        return m13;
                     case 14:
-                        return col4.z;
-                        break;
+                        return m23;
                     case 15:
-                        return col4.w;
-                        break;
+                        return m33;
                     default:
-                        throw new IndexOutOfRangeException("Invalid matrix index!");
+                        throw new IndexOutOfRangeException("Index out of Range!");
                 }
             }
             set
@@ -99,55 +108,55 @@ namespace CustomMath
                 switch (index)
                 {
                     case 0:
-                        col1.x = value;
+                        m00 = value;
                         break;
                     case 1:
-                        col1.y = value;
+                        m10 = value;
                         break;
                     case 2:
-                        col1.z = value;
+                        m20 = value;
                         break;
                     case 3:
-                        col1.w = value;
+                        m30 = value;
                         break;
                     case 4:
-                        col2.x = value;
+                        m01 = value;
                         break;
                     case 5:
-                        col2.y = value;
+                        m11 = value;
                         break;
                     case 6:
-                        col2.z = value;
+                        m21 = value;
                         break;
                     case 7:
-                        col2.w = value;
+                        m31 = value;
                         break;
                     case 8:
-                        col3.x = value;
+                        m02 = value;
                         break;
                     case 9:
-                        col3.y = value;
+                        m12 = value;
                         break;
                     case 10:
-                        col3.z = value;
+                        m22 = value;
                         break;
                     case 11:
-                        col3.w = value;
+                        m32 = value;
                         break;
                     case 12:
-                        col4.x = value;
+                        m03 = value;
                         break;
                     case 13:
-                        col4.y = value;
+                        m13 = value;
                         break;
                     case 14:
-                        col4.z = value;
+                        m23 = value;
                         break;
                     case 15:
-                        col4.w = value;
+                        m33 = value;
                         break;
                     default:
-                        throw new IndexOutOfRangeException("Invalid matrix index!");
+                        throw new IndexOutOfRangeException("Index out of Range!");
                 }
             }
         }
@@ -183,22 +192,22 @@ namespace CustomMath
         {
             Matrix returnM = Zero;
 
-            returnM.col1.x = lhs.col1.x * rhs.col1.x + lhs.col1.y * rhs.col2.x + lhs.col1.z * rhs.col3.x + lhs.col1.w * rhs.col4.x;
-            returnM.col1.y = lhs.col1.x * rhs.col1.y + lhs.col1.y * rhs.col2.y + lhs.col1.z * rhs.col3.y + lhs.col1.w * rhs.col4.y;
-            returnM.col1.z = lhs.col1.x * rhs.col1.z + lhs.col1.y * rhs.col2.z + lhs.col1.z * rhs.col3.z + lhs.col1.w * rhs.col4.z;
-            returnM.col1.w = lhs.col1.x * rhs.col1.w + lhs.col1.y * rhs.col2.w + lhs.col1.z * rhs.col3.w + lhs.col1.w * rhs.col4.w;
-            returnM.col2.x = lhs.col2.x * rhs.col1.x + lhs.col2.y * rhs.col2.x + lhs.col2.z * rhs.col3.x + lhs.col2.w * rhs.col4.x;
-            returnM.col2.y = lhs.col2.x * rhs.col1.y + lhs.col2.y * rhs.col2.y + lhs.col2.z * rhs.col3.y + lhs.col2.w * rhs.col4.y;
-            returnM.col2.z = lhs.col2.x * rhs.col1.z + lhs.col2.y * rhs.col2.z + lhs.col2.z * rhs.col3.z + lhs.col2.w * rhs.col4.z;
-            returnM.col2.w = lhs.col2.x * rhs.col1.w + lhs.col2.y * rhs.col2.w + lhs.col2.z * rhs.col3.w + lhs.col2.w * rhs.col4.w;
-            returnM.col3.x = lhs.col3.x * rhs.col1.x + lhs.col3.y * rhs.col2.x + lhs.col3.z * rhs.col3.x + lhs.col3.w * rhs.col4.x;
-            returnM.col3.y = lhs.col3.x * rhs.col1.y + lhs.col3.y * rhs.col2.y + lhs.col3.z * rhs.col3.y + lhs.col3.w * rhs.col4.y;
-            returnM.col3.z = lhs.col3.x * rhs.col1.z + lhs.col3.y * rhs.col2.z + lhs.col3.z * rhs.col3.z + lhs.col3.w * rhs.col4.z;
-            returnM.col3.w = lhs.col3.x * rhs.col1.w + lhs.col3.y * rhs.col2.w + lhs.col3.z * rhs.col3.w + lhs.col3.w * rhs.col4.w;
-            returnM.col4.x = lhs.col4.x * rhs.col1.x + lhs.col4.y * rhs.col2.x + lhs.col4.z * rhs.col3.x + lhs.col4.w * rhs.col4.x;
-            returnM.col4.y = lhs.col4.x * rhs.col1.y + lhs.col4.y * rhs.col2.y + lhs.col4.z * rhs.col3.y + lhs.col4.w * rhs.col4.y;
-            returnM.col4.z = lhs.col4.x * rhs.col1.z + lhs.col4.y * rhs.col2.z + lhs.col4.z * rhs.col3.z + lhs.col4.w * rhs.col4.z;
-            returnM.col4.w = lhs.col4.x * rhs.col1.w + lhs.col4.y * rhs.col2.w + lhs.col4.z * rhs.col3.w + lhs.col4.w * rhs.col4.w;
+            returnM.m00 = lhs.m00 * rhs.m00 + lhs.m01 * rhs.m10 + lhs.m02 * rhs.m20 + lhs.m03 * rhs.m30;
+            returnM.m01 = lhs.m00 * rhs.m01 + lhs.m01 * rhs.m11 + lhs.m02 * rhs.m21 + lhs.m03 * rhs.m31;
+            returnM.m02 = lhs.m00 * rhs.m02 + lhs.m01 * rhs.m12 + lhs.m02 * rhs.m22 + lhs.m03 * rhs.m32;
+            returnM.m03 = lhs.m00 * rhs.m03 + lhs.m01 * rhs.m13 + lhs.m02 * rhs.m23 + lhs.m03 * rhs.m33;
+            returnM.m10 = lhs.m10 * rhs.m00 + lhs.m11 * rhs.m10 + lhs.m12 * rhs.m20 + lhs.m13 * rhs.m30;
+            returnM.m11 = lhs.m10 * rhs.m01 + lhs.m11 * rhs.m11 + lhs.m12 * rhs.m21 + lhs.m13 * rhs.m31;
+            returnM.m12 = lhs.m10 * rhs.m02 + lhs.m11 * rhs.m12 + lhs.m12 * rhs.m22 + lhs.m13 * rhs.m32;
+            returnM.m13 = lhs.m10 * rhs.m03 + lhs.m11 * rhs.m13 + lhs.m12 * rhs.m23 + lhs.m13 * rhs.m33;
+            returnM.m20 = lhs.m20 * rhs.m00 + lhs.m21 * rhs.m10 + lhs.m22 * rhs.m20 + lhs.m23 * rhs.m30;
+            returnM.m21 = lhs.m20 * rhs.m01 + lhs.m21 * rhs.m11 + lhs.m22 * rhs.m21 + lhs.m23 * rhs.m31;
+            returnM.m22 = lhs.m20 * rhs.m02 + lhs.m21 * rhs.m12 + lhs.m22 * rhs.m22 + lhs.m23 * rhs.m32;
+            returnM.m23 = lhs.m20 * rhs.m03 + lhs.m21 * rhs.m13 + lhs.m22 * rhs.m23 + lhs.m23 * rhs.m33;
+            returnM.m30 = lhs.m30 * rhs.m00 + lhs.m31 * rhs.m10 + lhs.m32 * rhs.m20 + lhs.m33 * rhs.m30;
+            returnM.m31 = lhs.m30 * rhs.m01 + lhs.m31 * rhs.m11 + lhs.m32 * rhs.m21 + lhs.m33 * rhs.m31;
+            returnM.m32 = lhs.m30 * rhs.m02 + lhs.m31 * rhs.m12 + lhs.m32 * rhs.m22 + lhs.m33 * rhs.m32;
+            returnM.m33 = lhs.m30 * rhs.m03 + lhs.m31 * rhs.m13 + lhs.m32 * rhs.m23 + lhs.m33 * rhs.m33;
 
             return returnM;
         }
@@ -213,16 +222,16 @@ namespace CustomMath
         {
             Vector4 returnV = Vector4.zero;
 
-            returnV.x = lhs.col1.x * vector.x + lhs.col2.x * vector.y + lhs.col3.x * vector.z + lhs.col4.x * vector.w;
-            returnV.y = lhs.col1.y * vector.x + lhs.col2.y * vector.y + lhs.col3.y * vector.z + lhs.col4.y * vector.w;
-            returnV.z = lhs.col1.z * vector.x + lhs.col2.z * vector.y + lhs.col3.z * vector.z + lhs.col4.z * vector.w;
-            returnV.w = lhs.col1.w * vector.x + lhs.col2.w * vector.y + lhs.col3.w * vector.z + lhs.col4.w * vector.w;
+            returnV.x = lhs.m00 * vector.x + lhs.m01 * vector.y + lhs.m02 * vector.z + lhs.m03 * vector.w;
+            returnV.y = lhs.m10 * vector.x + lhs.m11 * vector.y + lhs.m12 * vector.z + lhs.m13 * vector.w;
+            returnV.z = lhs.m20 * vector.x + lhs.m21 * vector.y + lhs.m22 * vector.z + lhs.m23 * vector.w;
+            returnV.w = lhs.m30 * vector.x + lhs.m31 * vector.y + lhs.m32 * vector.z + lhs.m33 * vector.w;
 
             return returnV;
         }
         #endregion
 
-        public Quat rotation() => GetRotation();
+        public Quat rotation => GetRotation();
 
         /// <summary>
         /// Get The matrix rotation o
@@ -261,22 +270,22 @@ namespace CustomMath
 
             Matrix resultM = Zero;
 
-            resultM.col1.x = 1f - (y2 + z2);
-            resultM.col1.y = xy + wz;
-            resultM.col1.z = xz - wy;
-            resultM.col1.w = 0f;
-            resultM.col2.x = xy - wz;
-            resultM.col2.y = 1f - (x2 + z2);
-            resultM.col2.z = yz + wx;
-            resultM.col2.w = 0f;
-            resultM.col3.x = xz + wy;
-            resultM.col3.y = yz - wx;
-            resultM.col3.z = 1f - (x2 + y2);
-            resultM.col3.w = 0f;
-            resultM.col4.x = 0f;
-            resultM.col4.y = 0f;
-            resultM.col4.z = 0f;
-            resultM.col4.w = 1f;
+            resultM.m00 = 1f - (y2 + z2);
+            resultM.m10 = xy + wz;
+            resultM.m20 = xz - wy;
+            resultM.m30 = 0f;
+            resultM.m01 = xy - wz;
+            resultM.m11 = 1f - (x2 + z2);
+            resultM.m21 = yz + wx;
+            resultM.m31 = 0f;
+            resultM.m02 = xz + wy;
+            resultM.m12 = yz - wx;
+            resultM.m22 = 1f - (x2 + y2);
+            resultM.m32 = 0f;
+            resultM.m03 = 0f;
+            resultM.m13 = 0f;
+            resultM.m23 = 0f;
+            resultM.m33 = 1f;
 
             return resultM;
         }
@@ -303,12 +312,9 @@ namespace CustomMath
         /// <summary>
         /// Returns whether the matrix is the identity matrix.
         /// </summary>
-        private bool isIdentity()
+        private bool IsIdentity()
         {
-            return col1.x == 1f && col2.y == 1f && col3.z == 1f && col4.w == 1f
-                && col1.y == 0f && col2.x == 0f && col3.y == 0f && col4.y == 0f
-                && col1.z == 0f && col2.z == 0f && col3.x == 0f && col4.z == 0f
-                && col1.w == 0f && col2.w == 0f && col3.w == 0f && col4.x == 0f;
+            return this == Identity;
         }
 
         /// <summary>
@@ -355,29 +361,29 @@ namespace CustomMath
         {
             float aux;
 
-            aux = m.col2.x;
-            m.col2.x = m.col1.y;
-            m.col1.y = aux;
+            aux = m.m01;
+            m.m01 = m.m10;
+            m.m10 = aux;
 
-            aux = m.col3.x;
-            m.col3.x = m.col1.z;
-            m.col1.z = aux;
+            aux = m.m02;
+            m.m02 = m.m20;
+            m.m20 = aux;
 
-            aux = m.col4.x;
-            m.col4.x = m.col1.w;
-            m.col1.w = aux;
+            aux = m.m03;
+            m.m03 = m.m30;
+            m.m30 = aux;
 
-            aux = m.col3.y;
-            m.col3.y = m.col2.z;
-            m.col2.z = aux;
+            aux = m.m12;
+            m.m12 = m.m21;
+            m.m21 = aux;
 
-            aux = m.col4.y;
-            m.col4.y = m.col1.w;
-            m.col1.w = aux;
+            aux = m.m13;
+            m.m13 = m.m31;
+            m.m31 = aux;
 
-            aux = m.col4.z;
-            m.col4.z = m.col3.z;
-            m.col3.z = aux;
+            aux = m.m23;
+            m.m23 = m.m32;
+            m.m32 = aux;
 
             return m;
         }
@@ -388,9 +394,57 @@ namespace CustomMath
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private Matrix Inverse(Matrix m)
+        private Matrix Inverse(Matrix m) // terminar
         {
-            return m;
+            float detA = Determinant(m); //Debe tener determinante, de otra forma, no es inversible
+            if (detA == 0)
+                return Zero;
+
+            Matrix aux = new Matrix()
+            {
+                // Primera Columna
+                m00 = m.m11 * m.m22 * m.m33 + m.m12 * m.m23 * m.m31 + m.m13 * m.m21 * m.m32 - m.m11 * m.m23 * m.m32 - m.m12 * m.m21 * m.m33 - m.m13 * m.m22 * m.m31,
+                m01 = m.m01 * m.m23 * m.m32 + m.m02 * m.m21 * m.m33 + m.m03 * m.m22 * m.m31 - m.m01 * m.m22 * m.m33 - m.m02 * m.m23 * m.m31 - m.m03 * m.m21 * m.m32,
+                m02 = m.m01 * m.m12 * m.m33 + m.m02 * m.m13 * m.m32 + m.m03 * m.m11 * m.m32 - m.m01 * m.m13 * m.m32 - m.m02 * m.m11 * m.m33 - m.m03 * m.m12 * m.m31,
+                m03 = m.m01 * m.m13 * m.m22 + m.m02 * m.m11 * m.m23 + m.m03 * m.m12 * m.m21 - m.m01 * m.m12 * m.m23 - m.m02 * m.m13 * m.m21 - m.m03 * m.m11 * m.m22,
+                // Segunda Columna				     								    
+                m10 = m.m10 * m.m23 * m.m32 + m.m12 * m.m20 * m.m33 + m.m13 * m.m22 * m.m30 - m.m10 * m.m22 * m.m33 - m.m12 * m.m23 * m.m30 - m.m13 * m.m20 * m.m32,
+                m11 = m.m00 * m.m22 * m.m33 + m.m02 * m.m23 * m.m30 + m.m03 * m.m20 * m.m32 - m.m00 * m.m23 * m.m32 - m.m02 * m.m20 * m.m33 - m.m03 * m.m22 * m.m30,
+                m12 = m.m00 * m.m13 * m.m32 + m.m02 * m.m10 * m.m33 + m.m03 * m.m12 * m.m30 - m.m00 * m.m12 * m.m33 - m.m02 * m.m13 * m.m30 - m.m03 * m.m10 * m.m32,
+                m13 = m.m00 * m.m12 * m.m23 + m.m02 * m.m13 * m.m20 + m.m03 * m.m10 * m.m22 - m.m00 * m.m13 * m.m22 - m.m02 * m.m10 * m.m23 - m.m03 * m.m12 * m.m20,
+                // Tercera Columna				     								    
+                m20 = m.m10 * m.m21 * m.m33 + m.m11 * m.m23 * m.m30 + m.m13 * m.m20 * m.m31 - m.m10 * m.m23 * m.m31 - m.m11 * m.m20 * m.m33 - m.m13 * m.m31 * m.m30,
+                m21 = m.m00 * m.m23 * m.m31 + m.m01 * m.m20 * m.m33 + m.m03 * m.m21 * m.m30 - m.m00 * m.m21 * m.m33 - m.m01 * m.m23 * m.m30 - m.m03 * m.m20 * m.m31,
+                m22 = m.m00 * m.m11 * m.m33 + m.m01 * m.m13 * m.m31 + m.m03 * m.m10 * m.m31 - m.m00 * m.m13 * m.m31 - m.m01 * m.m10 * m.m33 - m.m03 * m.m11 * m.m30,
+                m23 = m.m00 * m.m13 * m.m21 + m.m01 * m.m10 * m.m23 + m.m03 * m.m11 * m.m31 - m.m00 * m.m11 * m.m23 - m.m01 * m.m13 * m.m20 - m.m03 * m.m10 * m.m21,
+                // Cuarta Columna					     								    
+                m30 = m.m10 * m.m22 * m.m31 + m.m11 * m.m20 * m.m32 + m.m12 * m.m21 * m.m30 - m.m00 * m.m21 * m.m32 - m.m11 * m.m22 * m.m30 - m.m12 * m.m20 * m.m31,
+                m31 = m.m00 * m.m21 * m.m32 + m.m01 * m.m22 * m.m30 + m.m02 * m.m20 * m.m31 - m.m00 * m.m22 * m.m31 - m.m01 * m.m20 * m.m32 - m.m02 * m.m21 * m.m30,
+                m32 = m.m00 * m.m12 * m.m31 + m.m01 * m.m10 * m.m32 + m.m02 * m.m11 * m.m30 - m.m00 * m.m11 * m.m32 - m.m01 * m.m12 * m.m30 - m.m02 * m.m10 * m.m31,
+                m33 = m.m00 * m.m11 * m.m22 + m.m01 * m.m12 * m.m20 + m.m02 * m.m10 * m.m21 - m.m00 * m.m12 * m.m21 - m.m01 * m.m10 * m.m22 - m.m02 * m.m11 * m.m20
+            };
+
+            Matrix ret = new Matrix()
+            {
+                m00 = aux.m00 / detA,
+                m01 = aux.m01 / detA,
+                m02 = aux.m02 / detA,
+                m03 = aux.m03 / detA,
+                m10 = aux.m10 / detA,
+                m11 = aux.m11 / detA,
+                m12 = aux.m12 / detA,
+                m13 = aux.m13 / detA,
+                m20 = aux.m20 / detA,
+                m21 = aux.m21 / detA,
+                m22 = aux.m22 / detA,
+                m23 = aux.m23 / detA,
+                m30 = aux.m30 / detA,
+                m31 = aux.m31 / detA,
+                m32 = aux.m32 / detA,
+                m33 = aux.m33 / detA
+
+            };
+            return ret;
         }
 
         /// <summary>
@@ -401,25 +455,23 @@ namespace CustomMath
         /// <returns></returns>
         public static Matrix Scale(Vec3 vector)
         {
-            Matrix retMat;
-
-            retMat.col1.x = vector.x;
-            retMat.col1.y = 0.0f;
-            retMat.col1.z = 0.0f;
-            retMat.col1.w = 0.0f;
-            retMat.col2.x = 0.0f;
-            retMat.col2.y = vector.y;
-            retMat.col2.z = 0.0f;
-            retMat.col2.w = 0.0f;
-            retMat.col3.x = 0.0f;
-            retMat.col3.y = 0.0f;
-            retMat.col3.z = vector.z;
-            retMat.col3.w = 0.0f;
-            retMat.col4.x = 0.0f;
-            retMat.col4.y = 0.0f;
-            retMat.col4.z = 0.0f;
-            retMat.col4.w = 1f;
-
+            Matrix retMat = Zero;
+            retMat.m00 = vector.x;
+            retMat.m01 = 0f;
+            retMat.m02 = 0f;
+            retMat.m03 = 0f;
+            retMat.m10 = 0f;
+            retMat.m11 = vector.y;
+            retMat.m12 = 0f;
+            retMat.m13 = 0f;
+            retMat.m20 = 0f;
+            retMat.m21 = 0f;
+            retMat.m22 = vector.z;
+            retMat.m23 = 0f;
+            retMat.m30 = 0f;
+            retMat.m31 = 0f;
+            retMat.m32 = 0f;
+            retMat.m33 = 1f;
             return retMat;
         }
 
@@ -430,26 +482,26 @@ namespace CustomMath
         /// <returns></returns>
         public static Matrix Translate(Vec3 vector)
         {
-            Matrix result = Zero;
+            Matrix retMat = Zero;
 
-            result.col1.x = 1f;
-            result.col1.y = 0f;
-            result.col1.z = 0f;
-            result.col1.w = vector.x;
-            result.col2.x = 0f;
-            result.col2.y = 1f;
-            result.col2.z = 0f;
-            result.col2.w = vector.y;
-            result.col3.x = 0f;
-            result.col3.y = 0f;
-            result.col3.z = 1f;
-            result.col3.w = vector.z;
-            result.col4.x = 0f;
-            result.col4.y = 0f;
-            result.col4.z = 0f;
-            result.col4.w = 1f;
+            retMat.m00 = 1f;
+            retMat.m01 = 0f;
+            retMat.m02 = 0f;
+            retMat.m03 = vector.x;
+            retMat.m10 = 0f;
+            retMat.m11 = 1f;
+            retMat.m12 = 0f;
+            retMat.m13 = vector.y;
+            retMat.m20 = 0f;
+            retMat.m21 = 0f;
+            retMat.m22 = 1f;
+            retMat.m23 = vector.z;
+            retMat.m30 = 0f;
+            retMat.m31 = 0f;
+            retMat.m32 = 0f;
+            retMat.m33 = 1f;
 
-            return result;
+            return retMat;
         }
 
         /// <summary>
@@ -481,9 +533,23 @@ namespace CustomMath
             this = TRS(pos, q, s);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool ValidTRS()
         {
-            return false;
+            if (lossyScale() == Vec3.Zero)
+                return false;
+            else if (m00 == double.NaN && m10 == double.NaN && m20 == double.NaN && m30 == double.NaN &&
+                     m01 == double.NaN && m11 == double.NaN && m21 == double.NaN && m31 == double.NaN &&
+                     m02 == double.NaN && m12 == double.NaN && m22 == double.NaN && m32 == double.NaN &&
+                     m03 == double.NaN && m13 == double.NaN && m23 == double.NaN && m33 == double.NaN)
+                return false;
+            else if (GetRotation().xq > 1 && GetRotation().xq < - 1 && GetRotation().yq > 1 && GetRotation().yq < -1 && GetRotation().zq > 1 && GetRotation().zq < - 1 && GetRotation().wq > 1 && GetRotation().wq < -1)
+                return false;
+            else
+                return true;
         }
 
         /// <summary>
@@ -493,19 +559,7 @@ namespace CustomMath
         /// <returns></returns>
         public Vector4 GetColumn(int index)
         {
-            switch (index)
-            {
-                case 0:
-                    return col1;
-                case 1:
-                    return col2;
-                case 2:
-                    return col3;
-                case 3:
-                    return col4;
-                default:
-                    throw new IndexOutOfRangeException();
-            }
+            return new Vector4(this[0, index], this[1, index], this[2, index], this[3, index]);
         }
 
         public void SetColumn(int index, Vector4 column)
@@ -528,15 +582,15 @@ namespace CustomMath
             switch (index)
             {
                 case 0:
-                    return new Vector4(col1.x, col2.x, col3.x, col4.x);
+                    return new Vector4(m00, m01, m02, m03);
                 case 1:
-                    return new Vector4(col1.y, col2.y, col3.y, col4.y);
+                    return new Vector4(m10, m11, m12, m13);
                 case 2:
-                    return new Vector4(col1.z, col2.z, col3.z, col4.z);
+                    return new Vector4(m20, m21, m22, m23);
                 case 3:
-                    return new Vector4(col1.w, col2.w, col3.w, col4.w);
+                    return new Vector4(m30, m31, m32, m33);
                 default:
-                    throw new IndexOutOfRangeException();
+                    throw new IndexOutOfRangeException("Index out of Range!");
             }
         }
         public void SetRow(int index, Vector4 row)
@@ -558,14 +612,15 @@ namespace CustomMath
         {
             Vec3 retVec;
 
-            retVec.x = (float)((double)col1.x * (double)point.x + (double)col2.x * (double)point.y + (double)col3.x * (double)point.z) + col4.x;
-            retVec.y = (float)((double)col1.y * (double)point.x + (double)col2.y * (double)point.y + (double)col3.y * (double)point.z) + col4.y;
-            retVec.z = (float)((double)col1.z * (double)point.x + (double)col2.z * (double)point.y + (double)col3.z * (double)point.z) + col4.z;
+            retVec.x = m00 * point.x + m01 * point.y + m02 * point.z + m03;
+            retVec.y = m10 * point.x + m11 * point.y + m12 * point.z + m13;
+            retVec.z = m20 * point.x + m21 * point.y + m22 * point.z + m23;
 
-            float num = 1f / ((float)((double)col1.w * (double)point.x + (double)col2.w * (double)point.y + (double)col3.w * (double)point.z) + col4.w);
-            retVec.x *= num;
-            retVec.y *= num;
-            retVec.z *= num;
+            float aux = 1f / m30 * point.x +m31 * point.y + m32 * point.z + m33;
+
+            retVec.x *= aux;
+            retVec.y *= aux;
+            retVec.z *= aux;
 
             return retVec;
         }
@@ -580,9 +635,9 @@ namespace CustomMath
         {
             Vec3 retVec;
 
-            retVec.x = (float)((double)col1.x * (double)point.x + (double)col2.x * (double)point.y + (double)col3.x * (double)point.z) + col4.x;
-            retVec.y = (float)((double)col1.y * (double)point.x + (double)col2.y * (double)point.y + (double)col3.y * (double)point.z) + col4.y;
-            retVec.z = (float)((double)col1.z * (double)point.x + (double)col2.z * (double)point.y + (double)col3.z * (double)point.z) + col4.z;
+            retVec.x = m00 * point.x + m01 * point.y + m02 * point.z + m03;
+            retVec.y = m10 * point.x + m11 * point.y + m12 * point.z + m13;
+            retVec.z = m20 * point.x + m21 * point.y + m22 * point.z + m23;
 
             return retVec;
         }
@@ -597,15 +652,20 @@ namespace CustomMath
         {
             Vec3 retVec;
 
-            retVec.x = (float)((double)col1.x * (double)vector.x + (double)col2.x * (double)vector.y + (double)col3.x * (double)vector.z);
-            retVec.z = (float)((double)col1.z * (double)vector.x + (double)col2.z * (double)vector.y + (double)col3.z * (double)vector.z);
-            retVec.y = (float)((double)col1.y * (double)vector.x + (double)col2.y * (double)vector.y + (double)col3.y * (double)vector.z);
+            retVec.x = m00 * vector.x + m01 * vector.y + m02 * vector.z;
+            retVec.y = m10 * vector.x + m11 * vector.y + m12 * vector.z;
+            retVec.z = m20 * vector.x + m21 * vector.y + m22 * vector.z;
 
             return retVec;
         }
+
+        /// <summary>
+        /// Get position vector from the matrix.
+        /// </summary>
+        /// <returns></returns>
         public Vec3 GetPosition()
         {
-            return Vec3.Zero;
+            return new Vec3(m03, m13, m23);
         }
     }
 }
