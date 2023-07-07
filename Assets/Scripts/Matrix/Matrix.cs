@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* https://referencesource.microsoft.com/#System.Numerics/System/Numerics/Matrix4x4.cs */
+/* https://es.wikipedia.org/wiki/Cuaterni%C3%B3n */
+/* https://learn.microsoft.com/en-us/dotnet/api/system.double.nan?view=net-7.0 */
 
 namespace CustomMath
 {
@@ -231,10 +233,14 @@ namespace CustomMath
         }
         #endregion
 
+        /// <summary>
+        /// Get The matrix rotation
+        /// </summary>
+        /// <returns></returns>
         public Quat rotation => GetRotation();
 
         /// <summary>
-        /// Get The matrix rotation o
+        /// Get The matrix rotation
         /// </summary>
         /// <returns></returns>
         private Quat GetRotation()
@@ -253,6 +259,11 @@ namespace CustomMath
             return returnQ;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="q"></param>
+        /// <returns></returns>
         public static Matrix Rotate(Quat q)
         {
             float x = q.xq * 2f;
@@ -296,7 +307,7 @@ namespace CustomMath
         /// is a convenience property which attempts to match the scale from the matrix as much as possible. If the given matrix is orthogonal, the value will be correct.
         /// </summary>
         /// <returns></returns>
-        public Vec3 lossyScale() => GetLosszScale();
+        public Vec3 lossyScale => GetLosszScale();
 
         /// <summary>
         /// Attempts to get a scale value from the matrix. (Read Only)
@@ -394,9 +405,9 @@ namespace CustomMath
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private Matrix Inverse(Matrix m) // terminar
+        private Matrix Inverse(Matrix m)
         {
-            float detA = Determinant(m); //Debe tener determinante, de otra forma, no es inversible
+            float detA = Determinant(m);
             if (detA == 0)
                 return Zero;
 
@@ -534,12 +545,12 @@ namespace CustomMath
         }
 
         /// <summary>
-        /// 
+        /// Check if the matrix is valid for Rendering
         /// </summary>
         /// <returns></returns>
         public bool ValidTRS()
         {
-            if (lossyScale() == Vec3.Zero)
+            if (lossyScale == Vec3.Zero)
                 return false;
             else if (m00 == double.NaN && m10 == double.NaN && m20 == double.NaN && m30 == double.NaN &&
                      m01 == double.NaN && m11 == double.NaN && m21 == double.NaN && m31 == double.NaN &&
@@ -562,6 +573,11 @@ namespace CustomMath
             return new Vector4(this[0, index], this[1, index], this[2, index], this[3, index]);
         }
 
+        /// <summary>
+        /// Set a new Value for a Column
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="column"></param>
         public void SetColumn(int index, Vector4 column)
         {
             this[0, index] = column.x;
@@ -593,6 +609,12 @@ namespace CustomMath
                     throw new IndexOutOfRangeException("Index out of Range!");
             }
         }
+
+        /// <summary>
+        /// Set a new Value for a Row
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="row"></param>
         public void SetRow(int index, Vector4 row)
         {
             this[index, 0] = row.x;
@@ -643,7 +665,8 @@ namespace CustomMath
         }
         /// <summary>
         /// Transforms a direction by this matrix.
-        /// This function is similar to MultiplyPoint; but it transforms directions and not positions. When transforming a direction, only the rotation part of the matrix 
+        /// This function is similar to MultiplyPoint;
+        /// but it transforms directions and not positions. When transforming a direction, only the rotation part of the matrix 
         /// is taken into account.
         /// </summary>
         /// <param name="vector"></param>
